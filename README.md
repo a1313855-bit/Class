@@ -14,6 +14,7 @@
 超連結->[文字](超連結網址)<br>
 [Goolge](https://www.google.com/)
 
+[day1/Ex1](day1/Ex1.java)
 
 
 
