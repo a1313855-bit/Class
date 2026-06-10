@@ -19,7 +19,7 @@
 [day1/Ex1](day1/Ex1.java)
 
 ![照片名稱](照片連結)<br>
-![桌面]
+![GitHub test](/pic/)
 
 
 
