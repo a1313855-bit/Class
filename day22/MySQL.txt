@@ -1,0 +1,19 @@
+MySQL網址:
+https://www.mysql.com/
+
+MySQL下載
+1.拉到下方的Downloads區->MySQL Community Server
+2.版本選到8.0.46 選擇系統
+3.進入安裝頁面 MySQL Server , MySQL Workbench
+
+MySQL driver (授權)
+1.拉到下方的Downloads區->MySQL Community Server
+2.最上方MySQL Community Downloads
+選擇自己的程式語言 Ex:Connector/J(Java) Connector/C++(C++)
+
+
+SQL教學網站(w3school)
+https://www.w3schools.com/sql/default.asp
+
+SQL教學網站(菜鳥教程)
+https://www.runoob.com/sql/sql-tutorial.html
