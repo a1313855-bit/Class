@@ -1,0 +1,24 @@
+UML圖
+凡例:
+ - : private
+
+                            Order                        }class名
+
+-name:String;  -member:int;                              }          
+-lcd:int;      -sum:double;                              }fields
+-ram:int;                                                }
+-mouse:int=100//int mouse=100;                           }
+
+Order(name:String,lcd;int,ram:int,mouse:int,member:int)  }constructors
+
+getName():String;                                        }
+setName(name:String)void;                                }
+getLcd():int;                                            }
+setLcd(icd:int)void;                                     }
+.                                                        }
+.                                                        }methods
+.                                                        }
+                                                         }
+changeOrder1(icd:int,ram:int,mouse:int):void;            }
+changeOrder2(icd:int,ram:int,mouse:int):double;          }
+show:void                                                }
