@@ -22,7 +22,13 @@
 
 ![照片名稱](照片連結)<br>
 
-![GitHub test](pic/Github test.png)
+![GitHub test](pic/Github_test.png)
+
+上船影片(沒有連結 上傳.mp4)<br>
+直接丟入README.md
+
+
+https://github.com/user-attachments/assets/09cfd7e1-87b8-46a4-a9b6-49250be04ff4
 
 
 
