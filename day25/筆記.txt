@@ -1,0 +1,306 @@
+新增一個Maven專案
+
+//===============================SQL===============================//
+先建立一個DataBase
+id:pk,nn,ai
+name:varchar
+username:varchar
+password:varchar
+name:varchar
+address:varchar
+phone:varchar
+mobile:varchar
+
+
+//===============================EclipseL===============================//
+New Maven project
+Create a simple project打勾
+Group id -> 網域名稱(公司，或個人等等)
+Atrifact id -> 專案名稱
+
+建立完成後...
+
+src/main/java -> 普通project的 src
+
+//===============================建立MVC===============================//
+|
+|-口:model ( entity / po / vo )
+|
+|-口:dao
+|  |-口:impl
+|
+|-口:service
+|  |-口:impl
+|
+|-口:controller/
+|
+|-口:util
+|
+|-口:exception
+
+
+//--------------------口:util 建立DbConnection.class--------------------//
+
+JDBC連線
+
+*Maven project跟普通專案找Driver不同
+
+普通:Build Path
+
+Maven:Maven Repository -> mysql java (自己的版本)
+      -> 複製Maven -> 回Eclipse pom.xml 
+      -> 輸入<dependencies> 複製Maven </dependencies>
+      -> 會出現Maven Dependencies (代表輸入成功)
+
+
+//--------------------口:model 建立 表->Ex:Member--------------------//
+
+field:
+
+SQL裡的所有欄位
+
+constructors:
+
+1.撈資料用
+無引數constructors
+
+2.新增用
+除了id(主索引)constructors
+
+mathods:
+set and get
+
+
+//--------------------口:dao 建立 interface MemberDao--------------------//
+
+寫入大綱--->dao裡寫的是跟SQL相關的，命名時也最好跟SQL有直接關係
+
+//create
+新增一筆資料進SQL
+
+//read
+查詢帳號，密碼
+查詢帳號
+
+//update
+
+
+//delete
+
+
+
+//--------------------口:dao 建立 MemberDaoImpl--------------------//
+
+先連線
+Connection conn=DbConnection.getDb();
+
+////////////////////新增一筆資料進SQL////////////////////
+
+1.寫出SQL方法
+String Sql="insert into member(name,username,password,address,phone,mobile)"
+				+ " values(?,?,?,?,?,?)";
+
+2.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+3.需要填入的資料(輸入框)
+ps.setString(1, member.getName());
+.
+.
+.
+
+4.更新SQL資料庫
+ps.executeUpdate();
+
+
+////////////////////查詢帳號，密碼////////////////////
+
+1.先設一個 Member member變數
+Member member=null;
+
+2.寫出SQL方法
+String Sql="select * from Member where username=? and password=?";
+
+3.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+4.填入的資料(輸入框)
+ps.setString(1, username);
+.
+.
+.
+
+5.轉換成ResultSet 可讀取SQ的方法
+ResultSet rs=ps.executeQuery();
+
+6.寫上判斷rs.next()->如果有這筆資料的話就...
+if(rs.next()) {
+	member=new Member();->新增一個空的Member欄位
+	member.setId(rs.getInt("id"));->填入id
+	member.setName(rs.getString("name"));->填入name
+	.
+	.
+	.
+
+7.輸出
+return member;
+
+////////////////////查詢帳號////////////////////
+
+和查詢帳號密碼差不多，修改SQL方法和填入的資料
+
+
+//--------------------口:service 建立 MemberService--------------------//
+
+寫入大綱--->service裡寫的是跟UI相關的，命名時也最好跟UI有直接關係
+
+//登入
+檢查資料庫內有無帳號密碼(String username,String password)
+
+//註冊
+輸入註冊時需要的所有資料(Member member)
+
+//檢查帳號
+檢查是否有相同帳號(String username)
+
+
+//--------------------口:service 建立 MemberServiceImpl--------------------//
+
+先呼叫剛剛做好的MemberDaoImpl
+MemberDao mdi=new MemberDaoImpl();(異質宣告)  *也可以直接宣告MemberDaoImpl
+
+////////////////////登入////////////////////
+
+return mdi.檢查帳號密碼的方法
+
+////////////////////註冊////////////////////
+
+mdi.新增一筆資料的方法
+
+////////////////////檢查帳號////////////////////
+
+1.先設置一個變數
+boolean x=false;
+
+2.宣告一個 指定一個Member變數 為mdi.select_by_username(username) 
+Member member=mdi.select_by_username(username);
+
+3.如果member不是null -> 有位址(有帳號) 
+if(member!=null) {
+	x=true;
+}
+
+4.最後輸出x
+return x;
+
+
+//--------------------口:controller 建立 Login--------------------//
+
+建立登入介面
+1.帳號密碼輸入框
+2.登入按鈕
+3.註冊按鈕
+
+/********** event **********/
+
+先呼叫剛剛做好的MemberServiceImpl
+MemberService mdi=new MemberServiceImpl();  *也可以直接宣告MemberServiceImpl
+
+//登入按鈕
+
+1.先把輸入框的內容取出
+String Username = username.getText();-->帳號
+String Password = password.getText();-->密碼
+
+2.指定Member member使用msi.登入方法
+Member member = msi.login(Username, Password);
+
+3.如果 member 有此帳號密碼 
+if (member != null) {
+	
+	//跳到Loginsuccess介面
+	LoginSuccess loginsuccess = new LoginSuccess();
+	loginsuccess.setVisible(true);
+	
+	//關閉此視窗
+	dispose();
+
+如果 member 無此帳號密碼
+} else {	
+跳到LoginError介面，關閉此視窗
+}
+
+//註冊按鈕
+跳到AddMember介面，關閉此視窗
+
+
+//--------------------口:controller 建立 LoginError--------------------//
+
+建立登入失敗介面
+1.通知使用者登入失敗
+2.註冊按鈕
+
+//註冊按鈕
+跳到AddMember介面，關閉此視窗
+
+
+//--------------------口:controller 建立 LoginSuccess--------------------//
+
+建立登入成功介面
+1.通知使用者登入成功
+
+
+//--------------------口:controller 建立 AddMember--------------------//
+
+先呼叫剛剛做好的MemberServiceImpl
+MemberService mdi=new MemberServiceImpl();  *也可以直接宣告MemberServiceImpl
+
+建立註冊介面
+1.全部資料輸入框
+2.註冊按鈕
+
+//註冊按鈕
+目標:
+1.判斷是否有重複帳號
+2.無重複帳號要註冊進SQL裡
+
+1.先把username輸入框的內容取出
+String Username = username.getText();
+
+2.判斷使否有相同帳號
+if (msi.check_username(Username)){
+->有 跳到AddMemberError介面，關閉此視窗}
+else{
+->無 把剩下的資料取處
+String Name = Name.getText();
+String Password = password.getText();
+.
+.
+.
+
+3.指定一個Member變數使用Member建構式
+Member member = new Member(Name,Username,Password,Address,Phone,Mobile);
+
+4.使用方法建立一筆資料進SQL
+msi.create_member(member);
+
+5.註冊成功
+跳到AddMemberSuccess介面，關閉此視窗
+
+//--------------------口:controller 建立 AddMemberError--------------------//
+
+建立註冊失敗介面
+1.通知使用者註冊失敗 有重複帳號
+2.回註冊頁按鈕
+
+//回註冊頁
+跳到AddMember介面，關閉此視窗
+
+//--------------------口:controller 建立 AddMemberSuccess--------------------//
+
+建立成功介面
+1.通知使用者註冊成功
+2.回登入首頁
+
+//回登入首頁
+跳到Login介面，關閉此視窗
