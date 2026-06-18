@@ -1,0 +1,341 @@
+未來可用:
+ChatGPT + CurSor + Claude Code #
+
+做出虛擬員工
+
+====================================================================
+
+接續day25
+
+//===============================SQL===============================//
+先建立一個DataBase
+id:pk,nn,ai
+name:varchar
+desk:varchar
+a:int
+b:int
+c:int
+sum:int
+
+//===============================EclipseL===============================//
+//--------------------口:model 建立 表->Porder--------------------//
+
+field:
+
+SQL裡的所有欄位
+
+constructors:
+
+1.撈資料用
+無引數constructors
+
+2.新增用
+除了id(主索引)constructors
+
+mathods:
+set and get
+
+//--------------------口:dao 建立 interface PorderDao--------------------//
+
+寫入大綱--->dao裡寫的是跟SQL相關的，命名時也最好跟SQL有直接關係
+
+//create
+新增一筆資料進SQL
+
+//read
+查詢全部
+查詢(ID單筆)
+
+//update
+修改
+
+//delete
+刪除
+
+
+//--------------------口:dao 建立 OrderDaoImpl--------------------//
+
+先連線
+Connection conn=DbConnection.getDb();
+
+////////////////////新增一筆資料進SQL////////////////////
+
+1.寫出SQL方法
+String Sql="insert into Porder(name,desk,a,b,c,sum)"
+			+ " values(?,?,?,?,?,?)";
+
+2.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+3.需要填入的資料(輸入框)
+ps.setString(1, member.getName());
+.
+.
+.
+
+4.更新SQL資料庫
+ps.executeUpdate();
+
+//測試
+
+1.新增一筆 porder
+Porder porder=new Porder("Mr.D", "B1", 2, 2, 2);
+
+2.使用方法加進SQL
+new PorderDaoImpl().insert(porder);
+
+
+////////////////////查詢全部////////////////////
+
+1.寫出SQL方法
+String sql="select * from porder";
+
+2.設一個 List<Porder>變數
+List<Porder> l=new ArrayList<>();
+
+3.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+4.轉換成ResultSet 可讀取SQ的方法
+ResultSet rs=ps.executeQuery();
+
+5.寫上判斷while.next()->如果有這筆資料的話就...
+while(rs.next()) {
+	Porder porder=new Porder();->設一個 Porder 變數
+	porder.setId(rs.getInt("id"));->填入id
+	porder.setName(rs.getString("name"));->填入name
+	.
+	.
+	.
+	
+6.把Porder資料放到 List<Porder> 裡面
+	
+l.add(porder);
+
+7.輸出
+return l;
+
+
+//測試
+
+1.使用方法把可以查到此資料的記憶體位址
+System.out.println(new PorderDaoImpl().select_all());
+
+
+////////////////////查詢(ID單筆)////////////////////
+
+1.寫出SQL方法
+String sql="select * from porder where id=?";
+
+2.設一個 List<Porder>變數
+List<Porder> l=new ArrayList<>();
+
+3.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+4.取得要查詢資料的id
+ps.setInt(1, id);
+
+5.轉換成ResultSet 可讀取SQ的方法
+ResultSet rs=ps.executeQuery();
+
+6.寫上判斷rs.next()->如果有這筆資料的話就...
+if(rs.next()) {
+	Porder porder=new Porder();->新增一個空的 Porder 欄位
+	porder.setId(rs.getInt("id"));->填入id
+	porder.setName(rs.getString("name"));->填入name
+	.
+	.
+	.
+
+7.把Porder資料放到 List<Porder> 裡面
+	
+l.add(porder);
+
+8.輸出
+return l;
+
+1.使用方法把可以查到此資料的記憶體位址
+System.out.println(new PorderDaoImpl().select_by_id(1));
+
+
+////////////////////修正////////////////////
+
+1.寫出SQL方法
+String sql="update porder set name=?,desk=?,a=?,b=?,c=?,sum=? where id=?";
+
+2.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+3.依序輸入SQL語法中問號的內容
+ps.setString(1, porder.getName());
+ps.setString(2, porder.getDesk());
+.
+.
+.
+
+4.更新SQL資料庫
+ps.executeUpdate();
+
+//測試
+
+1.使用 Porder p 使用 PorderDaoImpl().select_by_id(1) 方法 ()
+->此方法為List<Porder> 所以後面必須加上 .get(0) *陣列順序 0 , 1 , 2 , 3 ....
+Porder p=new PorderDaoImpl().select_by_id(1).get(0);
+
+2.把 Porder p 也就是 List<Porder> 陣列裡 0 的 a 改成 5
+p.setA(5);
+
+3.使用方法，把修改內容傳進SQL資料庫
+new PorderDaoImpl().update(p);
+
+
+////////////////////刪除////////////////////
+
+1.寫出SQL方法
+String sql="delete from porder where id=?"
+
+2.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(Sql);
+
+3.取得要刪除的資料id
+ps.setInt(1, id);
+
+4.更新SQL資料庫
+ps.executeUpdate();
+
+//測試
+
+1.使用方法刪除第(id)筆資料
+new PorderDaoImpl().delete(1);
+
+
+=================================================================================
+
+//===============================把物件存進硬碟裡===============================//
+
+1.把資料寫進檔案 (檔案路徑)
+FileOutputStream fos=new FileOutputStream(file_name);
+
+2.把Java物件->轉成位元資料 然後交給FileOutputStream 寫進檔案
+ObjectOutputStream oos=new ObjectOutputStream(fos);
+
+3.把obceft寫入檔案 但object的class必須要 implements Serializable(序列化)
+oos.writeObject(object);
+
+
+//===============================讀取存取的檔案===============================//
+
+1.先建立一個Object (避免等一下讀取不到檔案)
+Object object = new Object();
+
+2.打開檔案準備「讀資料」
+FileInputStream fis = new FileInputStream(file_name);
+
+3.把「二進位資料」轉回 Java 物件
+ObjectInputStream ois = new ObjectInputStream(fis);
+
+4.把檔案裡的物件讀回來
+object = ois.readObject();
+
+=================================================================================
+
+//--------------------口:util 建立 Tool--------------------//
+
+
+////////////////////寫入////////////////////
+
+
+1.把資料寫進檔案 (檔案路徑)
+FileOutputStream fos=new FileOutputStream(file_name);
+
+2.把Java物件->轉成位元資料 然後交給FileOutputStream 寫進檔案
+ObjectOutputStream oos=new ObjectOutputStream(fos);
+
+3.把obceft寫入檔案 但object的class必須要 implements Serializable(序列化)
+oos.writeObject(object);
+
+//測試
+
+1.新增一個 Member 物件
+Member member=new Member("Mr.D","ddd","1234","new taipeicity","0900000011","0200000011");
+
+2.存檔 (檔案名稱 , 物件)
+Tool.save_file("member.txt", member);
+
+
+////////////////////讀出////////////////////
+
+1.先建立一個Object (避免等一下讀取不到檔案)
+Object object = new Object();
+
+2.打開檔案準備「讀資料」
+FileInputStream fis = new FileInputStream(file_name);
+
+3.把「二進位資料」轉回 Java 物件
+ObjectInputStream ois = new ObjectInputStream(fis);
+
+4.把檔案裡的物件讀回來
+object = ois.readObject();
+
+//測試
+
+1.讀取此檔案 -> 檔案是物件(記憶體位址)
+System.out.println(Tool.read_file("member.txt"));
+
+
+////////////////////讀出內容////////////////////
+
+1.宣告一個物件 變數 與 檔案 物件類型相同
+Member member=(Member) Tool.read_file("member.txt");
+
+2.印出物件內容
+System.out.println("name:"+member.getName()+"\t"+"phone:"+member.getPhone());
+
+
+//===============================UI===============================//
+
+讓第一頁寫的內容可以被接下來的頁數繼承
+
+延續day25
+
+
+//--------------------口:controller Login--------------------//
+
+//登入後要讀取其會員資料
+{
+String Username = username.getText(); <-輸入帳號
+String Password = password.getText(); <-輸入密碼
+
+Member member = msi.login(Username, Password); <-確認帳號密碼
+
+if (member != null) { <-有帳號密碼
+
+	Tool.save_file("member.txt", member); <- 這個位置 ->讀取此帳號資訊
+	
+	LoginSuccess loginsuccess = new LoginSuccess(); <-讀完才轉換 Success 頁面
+	loginsuccess.setVisible(true);
+	dispose();
+} else { <-無帳號密碼
+	LoginError loginerror = new LoginError(); <-才轉換 Error 頁面
+	loginerror.setVisible(true);
+	dispose();
+}
+
+
+//--------------------口:controller LoginSuccess--------------------//
+
+//登入成功 顯示 "名稱" 歡迎你
+
+1.把登入頁面做出來的 "檔案" 叫出來 
+Member member=(Member) Tool.read_file("member.txt");
+
+2.先做一個 JLabel 把內容清空 並重新命名變數(非強制)
+JLabel show_member = new JLabel("");
+show_member.setFont(new Font("新細明體", Font.PLAIN, 16));
+show_member.setBounds(38, 99, 155, 31);
+contentPane.add(show_member);
+		
+3.JLabel 也可以.setText( 從登入頁面做出的檔案裡取出.getName() )
+show_member.setText(member.getName()+"\t歡迎你");
+
