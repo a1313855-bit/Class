@@ -1,0 +1,287 @@
+設計購物頁面
+
+//===============================EclipseL===============================//
+
+接續day26
+
+
+//--------------------口:controller LoginSuccess--------------------//
+
+做一個 "進入購物" JButteon 跳頁到PorderUI
+
+
+//--------------------口:controller 建立 PorderUI--------------------//
+
+//顯示 "名稱" 請選擇功能
+
+1.把登入頁面做出來的 "檔案" 叫出來 
+Member member=(Member) Tool.read_file("member.txt");
+
+2.先做一個 JLabel 把內容清空 並重新命名變數(非強制)
+
+3.從登入頁面做出的檔案裡取出.getName()
+title.setText(member.getName()+"\t請選擇功能");
+
+4.做一個跳到"新增頁面"按鈕
+跳頁到AddPorder
+
+
+//--------------------口:controller 建立 AddPorder--------------------//
+
+//顯示 "名稱" 請輸入產品數量
+
+1.把登入頁面做出來的 "檔案" 叫出來 
+Member member=(Member) Tool.read_file("member.txt");
+
+2.先做一個 JLabel 把內容清空 並重新命名變數(非強制)
+
+3.從登入頁面做出的檔案裡取出.getName()
+title.setText(member.getName()+"\t請選擇功能");
+
+做出A,B,C,桌號輸入框
+
+//把A,B,C,桌號 使用Porder物件 建立一個檔案
+
+1.JTextField 輸出預設為String 轉成int
+int A=Integer.parseInt(a.getText());
+.
+.
+.
+
+2.使用Porder建構式 新增一個Porder物件
+Porder porder=new Porder(member.getName(),Desk,A,B,C);
+
+3.讀取檔案內容
+Tool.save_file("porder.txt", porder);
+
+4.做一個跳到"確認頁面"按鈕
+跳頁到Confirm
+
+
+//--------------------口:service 建立 PorderService--------------------//
+
+//Confirm新增
+void add_porder(Porder porder);
+
+
+//--------------------口:service 建立 PorderServiceImpl--------------------//
+
+先呼叫PorderDaoImpl
+PorderDao pdi=new PorderDaoImpl();
+
+////////////////////Confirm新增////////////////////
+
+1.如果有porder物件的記憶體位置的話
+if(porder!=null)
+
+2.使用PorderDaoImpl的新增方法存入資料庫
+pdi.insert(porder);
+
+
+//--------------------口:controller 建立 Confirm--------------------//
+
+////////////////////顯示 "名稱" 這是你的細目////////////////////
+
+1.把登入頁面做出來的 "檔案" 叫出來 
+Member member=(Member) Tool.read_file("member.txt");
+Porder porder=(Member) Tool.read_file("porder.txt");
+
+
+2.先做一個 JTextArea 並重新命名變數(非強制)
+
+3.做一個String 變數 把想要顯示在JTextArea的內容 寫出來
+String t="A:"+porder.getA()+
+	"\nB:"+porder.getB()+
+	"\nC:"+porder.getC()+
+	"\n金額:"+porder.getSum();
+
+4.顯示在JTextArea
+show_all.setText(t);
+
+////////////////////跳頁並把資料存進資料庫////////////////////
+
+1.呼叫PorderServiceImpl裡的方法把資料放進資料庫
+new PorderServiceImpl().add_porder(porder);
+
+2.做一個跳到"明細頁面"按鈕
+跳頁到Finish
+
+
+//--------------------口:controller 建立 Finish--------------------//
+
+////////////////////顯示 客戶所有資料與訂單////////////////////
+
+1.把所需的檔案取出
+Member member=(Member) Tool.read_file("member.txt");
+Porder porder=(Member) Tool.read_file("porder.txt");
+
+2.先做一個 JTextArea 並重新命名變數(非強制)
+
+3.做一個String 變數 把想要顯示在JTextArea的內容 寫出來
+String show=member.getName()+"這是你的訂單細目"+
+		"\n地址:"+member.getAddress()+
+		.
+		.
+		.
+
+4.顯示在JTextArea
+reporter.setText(show);
+
+//回訂購頁
+跳回PorderUI
+
+//列印
+try {
+	reporter.print();
+} catch (PrinterException e1) {
+	e1.printStackTrace();
+}
+
+
+//--------------------口:dao 建立 ProderDao--------------------//
+
+//read
+增加一個查詢名稱
+List<Porder> select_by_name(String name);
+
+增加一個查詢價格區間
+List<Porder> select_by_sum(int start,int end);
+
+
+//--------------------口:dao 建立 ProderDaoImpl--------------------//
+
+////////////////////查詢名稱////////////////////
+
+1.寫出SQL方法
+String sql="select * from porder where name=?";
+
+2.宣告List<Porder> 物件變數
+List<Porder> l=new ArrayList<>();
+
+3.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(sql);
+
+4.需要填入的資料(輸入框)
+ps.setString(1, name);
+
+5.轉換成ResultSet 可讀取SQ的方法
+ResultSet rs=ps.executeQuery();
+
+6.寫上判斷rs.next()->如果有這筆資料的話就...
+while(rs.next()){
+	Porder porder=new Porder();->新增一個空的 Porder 欄位
+	porder.setId(rs.getInt("id"));->填入id
+	porder.setName(rs.getString("name"));->填入name
+	.
+	.
+	.	
+
+7.把Porder資料放到 List<Porder> 裡面
+	
+l.add(porder);
+
+8.輸出
+return l;
+
+////////////////////查詢金額區間////////////////////
+
+1.寫出SQL方法
+String sql="select * from porder where sum>=? and sum<=?";
+
+2.宣告List<Porder> 物件變數
+List<Porder> l=new ArrayList<>();
+
+3.轉換成PreparedStatement
+PreparedStatement ps=conn.prepareStatement(sql);
+
+4.需要填入的資料(輸入框)
+ps.setString(1, start);
+ps.setString(2, end);
+
+5.轉換成ResultSet 可讀取SQ的方法
+ResultSet rs=ps.executeQuery();
+
+6.寫上判斷rs.next()->如果有這筆資料的話就...
+while(rs.next()){
+	Porder porder=new Porder();->新增一個空的 Porder 欄位
+	porder.setId(rs.getInt("id"));->填入id
+	porder.setName(rs.getString("name"));->填入name
+	.
+	.
+	.	
+
+7.把Porder資料放到 List<Porder> 裡面
+	
+l.add(porder);
+
+8.輸出
+return l;
+
+
+//--------------------口:service PorderService--------------------//
+
+//SelectUI
+查詢全部
+String find_all_Porder();
+
+查詢名稱
+String find_by_name(String name);
+
+查詢價格區間
+String find_by_sum(int start,int end);
+
+
+//--------------------口:service PorderServiceImpl--------------------//
+
+PorderDao pdi=new PorderDaoImpl();
+
+////////////////////查詢全部////////////////////
+
+1.宣告一個List<Porder> 指定PorderDaoImpl裡的查詢全部方法;
+List<Porder> l=pdi.select_all();
+
+2.宣告一個String 變數 裡面放要輸出的資料
+String show="";
+
+3.宣告一個int 變數 算總數
+int count=0;
+
+4.宣告一個int 變數 算總金額
+int sum=0;
+
+5.用for-each把ArrayList裡的資料都取出來
+for(Porder p:l) {
+	count++; ->每迴圈一次++ ->總數
+	sum+=p.getSum(); ->每迴圈一次加一次金額 -> 總金額
+	show+="ID:"+p.getId()+ -> 輸出每筆的資訊
+		"\t名稱:"+p.getName()+
+		"\t桌號:"+p.getDesk()+
+		"\tA:"+p.getA()+
+		"\tB:"+p.getB()+
+		"\tC:"+p.getC()+
+		"\t金額:"+p.getSum()+"\n";
+}
+
+6.用剛宣告的show 把所有要輸出的資料都先裝起來
+show+="共:"+count+"筆"+
+	"\n總金額:"+sum+"元";
+
+7.輸出show
+return show;
+
+
+//--------------------口:controller 建立 SelectUI--------------------//
+
+介面:
+1.三個查詢按鈕(全部，客戶名，金額區間)
+2.三個顯示框(全部，客戶名，金額區間)
+3.輸入框(客戶名，區間 ? ~ ? )
+
+呼叫PorderServiceImpl
+PorderService psi=new PorderServiceImpl();
+
+////////////////////查詢全部////////////////////
+
+直接呼叫PorderServiceImpl裡的查詢全部方法
+all_show.setText(psi.find_all_Porder());
+
