@@ -1,0 +1,236 @@
+接續day27
+//===============================EclipseL===============================//
+
+//--------------------口:service PorderServiceImpl--------------------//
+
+////////////////////查詢(名稱)////////////////////
+
+1.宣告一個List<Porder> 指定PorderDaoImpl裡的查詢(名稱)方法;
+List<Porder> l=pdi.select_by_name(name);
+
+2.宣告一個String 變數 裡面放要輸出的資料
+String show="";
+
+3.宣告一個int 變數 算總數
+int count=0;
+
+4.宣告一個int 變數 算總金額
+int sum=0;
+
+5.先判斷這個名字是否有下訂單
+if(l.size() != 0) -> ArrayList<>物件方法 .size() -> 物件無資料會顯示 0
+
+6.用for-each把ArrayList裡的資料都取出來
+for(Porder p:l) {
+	count++; ->每迴圈一次++ ->總數
+	sum+=p.getSum(); ->每迴圈一次加一次金額 -> 總金額
+	show+="ID:"+p.getId()+ -> 輸出每筆的資訊
+		"\t名稱:"+p.getName()+
+		"\t桌號:"+p.getDesk()+
+		"\tA:"+p.getA()+
+		"\tB:"+p.getB()+
+		"\tC:"+p.getC()+
+		"\t金額:"+p.getSum()+"\n";
+}
+
+7.用剛宣告的show 把所有要輸出的資料都先裝起來
+show+="共:"+count+"筆"+
+	"\n總金額:"+sum+"元";
+
+8.輸出show
+return show;
+
+
+
+//--------------------口:controller SelectUI--------------------//
+
+////////////////////查詢(名稱)////////////////////
+
+輸出框.setText(使用PorderServiceImpl.查詢(名稱)方法(輸入框.getText()));
+name_show.setText(psi.find_by_name(name.getText()));
+
+//--------------------口:service PorderServiceImpl--------------------//
+
+////////////////////查詢(金額區間)////////////////////
+
+條件:
+1.檢查start,end不能是負數
+2.檢查此區間是否有訂單
+
+1.宣告一個String 變數 裡面放要輸出的資料
+String show="";
+
+2.檢查start,end不能是負數
+if(start>=0 && end>=0){
+
+3.宣告一個List<Porder> 指定PorderDaoImpl裡的查詢(名稱)方法;
+List<Porder> l=pdi.select_by_sum(start, end);
+
+4.宣告一個int 變數 算總數
+int count=0;
+
+5.宣告一個int 變數 算總金額
+int sum=0;
+
+6.檢查此區間是否有訂單
+if(l.size()!=0) {
+
+7.用for-each把ArrayList裡的資料都取出來
+for(Porder p:l) {
+	count++; ->每迴圈一次++ ->總數
+	sum+=p.getSum(); ->每迴圈一次加一次金額 -> 總金額
+	show+="ID:"+p.getId()+ -> 輸出每筆的資訊
+		"\t名稱:"+p.getName()+
+		"\t桌號:"+p.getDesk()+
+		"\tA:"+p.getA()+
+		"\tB:"+p.getB()+
+		"\tC:"+p.getC()+
+		"\t金額:"+p.getSum()+"\n";
+}
+
+8.用剛宣告的show 把所有要輸出的資料都先裝起來
+show+="共:"+count+"筆"+
+	"\n總金額:"+sum+"元";
+
+9.檢查start,end如果是負數的話
+else {
+	show="此金額區間 無訂單";
+
+10.輸出show
+return show;
+
+
+//--------------------口:controller SelectUI--------------------//
+
+////////////////////查詢(金額區間)////////////////////
+
+1.把JTextField從String轉成int
+int Money_Start=Integer.parseInt(money_start.getText());
+int Money_End=Integer.parseInt(money_end.getText());
+
+2.輸出框.setText(使用PorderServiceImpl.查詢(價格區間)方法(轉成int的輸入框內容));
+sum_show.setText(psi.find_by_sum(Money_Start, Money_End));
+
+
+
+//--------------------口:service PorderService--------------------//
+
+//UpdateUI
+用ID修改 (桌號,A,B,C)
+void change_porder(int id,String desk,int a,int b,int c);
+
+//DeleteUI
+用ID刪除
+void delete_by_id(int id);
+
+
+//--------------------口:service PorderServiceImpl--------------------//
+
+////////////////////用ID修改 (桌號,A,B,C)////////////////////
+
+1.宣告一個List<Porder> 指定PorderDaoImpl裡的查詢(id)方法
+List<Porder> l=pdi.select_by_id(id);
+
+2.檢查此id是否有訂單
+if(l.size()!=0) {
+
+3.宣告一個 Porder 
+Porder porder=l.get(0);
+
+4.修改 porder 內容
+porder.setDesk(desk);
+porder.setA(a);
+porder.setB(b);
+porder.setC(c);
+
+5.使用PorderServiceImpl方法 把剛剛填到porder的資料 修改到資料庫裡
+pdi.updete(porder);
+
+
+////////////////////用ID刪除////////////////////
+
+1.宣告一個List<Porder> 指定PorderDaoImpl裡的查詢(id)方法;
+List<Porder> l=pdi.select_by_id(id);
+
+2.檢查此id是否有訂單
+if(l.isEmpty()!=true) -> ArrayList<>方法 -> .isEmpty 沒有資料會顯示true 
+-> 所以這句話可以想成 是false 執行
+
+3.使用PorderServiceImpl方法 刪除資料庫裡的資料
+pdi.delete(id);
+
+
+//--------------------口:controller UpdateUI--------------------//
+
+先呼叫 PorderServiceImpl 等等使用裡面的方法
+PorderService psi = new PorderServiceImpl();
+
+1.做三個按鈕分別為(查詢(全部) , 修改 , 回管理頁面)
+2.做一個輸出框(來看要修改的資料和修改後的資料)
+3.做五個輸入框(ID:拿來表示要修改的資料)(桌號: , A , B , C : 拿來修改資料)
+
+////////////////////查詢全部////////////////////
+
+all_show.setText(psi.find_all_Porder());
+
+
+////////////////////修改(查詢ID後 修改A,B,C,桌號)////////////////////
+
+1.先把輸入框裡的內容轉成 int
+int Id=Integer.parseInt(id.getText());
+int A=Integer.parseInt(a.getText());
+int B=Integer.parseInt(b.getText());
+int C=Integer.parseInt(c.getText());
+
+2.輸入框 desk 本來就要輸出 String 不用轉類型 可是要把內容取出
+String Desk=desk.getText();
+
+3.使用PorderServiceImpl方法 把修改資料存進資料庫
+psi.change_porder(Id, Desk, A, B, C);
+
+4.刪除輸入框的內容 讓使用者理解已經修改成功
+id.setText("");
+desk.setText("");
+a.setText("");
+b.setText("");
+c.setText("");
+
+
+////////////////////反回管理頁面////////////////////
+
+PorderUI porder_ui = new PorderUI();
+porder_ui.setVisible(true);
+dispose();
+
+
+//--------------------口:controller DeleteUI--------------------//
+
+先呼叫 PorderServiceImpl 等等使用裡面的方法
+PorderService psi = new PorderServiceImpl();
+
+1.做三個按鈕分別為(查詢(全部) , 刪除 , 回管理頁面)
+2.做一個輸出框(來看要刪除的資料和刪除後的資料)
+3.做一個輸入框(ID:拿來表示要修改的資料)
+
+////////////////////查詢全部////////////////////
+
+all_show.setText(psi.find_all_Porder());
+
+
+////////////////////刪除(查詢ID)////////////////////
+
+1.先把輸入框裡的內容轉成 int
+int Id=Integer.parseInt(id.getText());
+
+2.使用PorderServiceImpl方法 把資料庫裡的內容刪除
+psi.delete_by_id(Id);
+
+3.刪除輸入框的內容 讓使用者理解已經刪除成功
+id.setText("");
+
+////////////////////反回管理頁面////////////////////
+
+PorderUI porder_ui = new PorderUI();
+porder_ui.setVisible(true);
+dispose();
+
