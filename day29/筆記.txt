@@ -1,0 +1,210 @@
+陣列		Arrays []	List	Stream
+
+排序規則
+
+Comparable
+
+Comparator
+
+//=================================Eclipse=================================//
+
+//-------------------------------Array(陣列)-------------------------------//
+
+///////////////////////////////取出陣列全部資料///////////////////////////////
+
+main程式->
+
+Ex:
+
+宣告一個 Array x
+int[] x=new int[] {20,30,10,5,60,-5,35};
+
+用for-each取出資料
+for(int o:x) {
+	System.out.print(o+" ");
+}
+
+print:
+20 30 10 5 60 -5 35
+
+
+//////////////////////////Array(陣列) 資料由小到大//////////////////////////
+
+接續上面的例子
+
+main程式->
+
+使用 Arrays 物件 .sort() 方法
+Arrays.sort(x)
+
+用for-each取出資料
+for(int o:x) {
+	System.out.print(o+" ");
+}
+
+print:
+-5 5 10 20 30 35 60
+
+
+//------------------------Array(陣列) OOP(物件導向) ------------------------//
+
+///////////////////////////////取出陣列全部資料///////////////////////////////
+
+物件: Ex -> Student
+
+main程式->
+
+宣告 Student 陣列 4個物件
+Student[] s=new Student[4];
+
+物件裡面填入值 ( "name" , chi , eng , math )
+s[0]=new Student("a1",60,70,80);
+s[1]=new Student("a2",65,70,90);
+s[2]=new Student("a3",80,75,60);
+s[3]=new Student("a4",70,80,85);
+
+用for-each取出資料
+for(Student o:s) {
+	o.show();
+}
+
+print:
+名稱:a1	國文:60	英文:70	數學:80	總分:210
+名稱:a2	國文:65	英文:70	數學:90	總分:225
+名稱:a3	國文:80	英文:75	數學:60	總分:215
+名稱:a4	國文:70	英文:80	數學:85	總分:235
+
+
+///////////////////////////有"物件"原始碼 資料排序///////////////////////////
+
+接續上面的例子
+
+class Student ->
+
+1.implements Comparable<>
+public class Student implements Comparable<Student>{
+
+2.Override Comparable方法 ( 比較的基準 ) -> Ex:sum
+public int compareTo(Student o) {
+	//this拿原本的 - o下一個 比較
+	return this.sum-o.sum; -> sum由小到大
+		
+	//o下一個 - this拿原本的 比較
+	return o.sum-this.sum; -> sum由小到大
+}
+
+
+main程式->
+
+使用 Arrays 物件 .sort() 方法
+Arrays.sort(s)
+
+用for-each取出資料
+for(int o:s) {
+	System.out.print(o+" ");
+}
+
+
+///////////////////////////無"物件"原始碼 資料排序(匿名)///////////////////////////
+
+接續上面的例子
+
+main程式->
+
+宣告一個 Comparator<Student2> 物件 
+->由於interface是抽象 無法被new 所以要"匿名" -> 也就是幫他做一個身體
+Comparator<Student2> c=new Comparator<>() {
+	@Override
+	//做一個 ( 比較的基準 ) -> Ex:sum
+	public int compare(Student2 o1, Student2 o2) {
+		return o1.getSum()-o2.getSum();
+	}};
+
+使用 Arrays 物件 .sort() 方法
+Arrays.sort(s,c)
+
+用for-each取出資料
+for(int o:s) {
+	System.out.print(o+" ");
+}
+
+print:
+名稱:a1	國文:60	英文:70	數學:80	總分:210
+名稱:a3	國文:80	英文:75	數學:60	總分:215
+名稱:a2	國文:65	英文:70	數學:90	總分:225
+名稱:a4	國文:70	英文:80	數學:85	總分:235
+
+
+///////////////////////////無"物件"原始碼 資料排序(Lambda)///////////////////////////
+
+接續上面的例子
+
+main程式->
+
+宣告一個 Comparator<Student2> 物件 -> Lambda寫法
+Comparator<Student2> c=(c1,c2)->c1.getSum()-c2.getSum();
+
+使用 Arrays 物件 .sort() 方法
+Arrays.sort(s,c)
+
+用for-each取出資料
+for(int o:s) {
+	System.out.print(o+" ");
+}
+
+print:
+名稱:a1	國文:60	英文:70	數學:80	總分:210
+名稱:a3	國文:80	英文:75	數學:60	總分:215
+名稱:a2	國文:65	英文:70	數學:90	總分:225
+名稱:a4	國文:70	英文:80	數學:85	總分:235
+
+
+///////////////////////////Lambda 多種功能使用選擇///////////////////////////
+
+接續上面的例子
+
+額外做一個 class 來存放要使用的功能
+
+class cal{
+
+	//排序基準為 sum 從小到大
+	public static int sort_by_sum(Student2 o1,Student2 o2) {
+		return o2.getSum()-o1.getSum();
+	}
+
+	//排序基準為 chi 從大到小
+	public static int sort_by_chi(Student2 o1,Student2 o2) {
+		return o1.getChi()-o2.getChi();
+	}
+
+	//排序基準為 eng 從大到小
+	public static int sort_by_eng(Student2 o1,Student2 o2) {
+		return o1.getEng()-o2.getEng();
+	}
+
+	//排序基準為 math 從大到小
+	public static int sort_by_math(Student2 o1,Student2 o2) {
+		return o1.getMath()-o2.getMath();
+	}
+}
+
+main程式->
+
+宣告一個 Comparator<Student2> 物件 -> Lambda寫法
+* class :: 裡的 sort_by_chi 方法
+Comparator<Student2> c=cal::sort_by_chi;
+
+使用 Arrays 物件 .sort() 方法
+Arrays.sort(s,c)
+
+用for-each取出資料
+for(int o:s) {
+	System.out.print(o+" ");
+}
+
+print:
+名稱:a1	國文:60	英文:70	數學:80	總分:210
+名稱:a2	國文:65	英文:70	數學:90	總分:225
+名稱:a4	國文:70	英文:80	數學:85	總分:235
+名稱:a3	國文:80	英文:75	數學:60	總分:215
+

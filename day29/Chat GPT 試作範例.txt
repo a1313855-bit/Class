@@ -1,0 +1,29 @@
+給我一個簡易購物系統範例
+
+1.開發環境
+jdk 11
+mysql8.0
+
+2.開發工具與規則
+Eclipse java Se+windowBuilder
+遵守 MVC+dao Pattern
+
+Maven project 製作
+
+
+3.資料夾
+
+model
+dao.impl
+service.impl
+controller
+util
+exception
+
+
+4.功能
+會員登入與CRUD
+購物CRUD
+
+
+做成zip
