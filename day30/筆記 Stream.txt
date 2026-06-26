@@ -1,0 +1,353 @@
+//==================================四種規則==================================//
+
+Predicate<T>
+	Public Boolean test(T t);
+
+Consumer<T>
+	Public void accept(T t);
+
+Function<T,R>
+	Public R apply(T t);
+
+Supplier<T>
+	Public T get();
+
+
+//==================================Eclipse==================================//
+
+//--------------------------------Predicate--------------------------------//
+
+1. 利用 Predicate <> 做一個判斷式
+Predicate<Integer> p=(t)->t>0;
+
+2.執行步驟p.test(t) t > 0 -> yes , t <= 0 -> no
+if(p.test(50)) {
+	System.out.println("yes");
+}else {
+	System.out.println("no");
+}
+
+print:
+yes
+
+
+//--------------------------------Consumer--------------------------------//
+
+1. 利用 Consumer<> 寫步驟
+Consumer<Integer> c=(t)->{
+	for(int i=1;i<=t;i++) {
+		System.out.println("i:"+i+"\thello java");
+	}
+};
+		
+2.執行步驟 c.accept(t) -> 填入值
+c.accept(10);
+
+print:
+i:1	hello java
+i:2	hello java
+.
+.
+.
+i:10	hello java
+
+
+
+
+//--------------------------------Function--------------------------------//
+
+宣告一個 String 變數
+String number="100";
+
+一般情況:
+System.out.println(10+number);
+
+print:
+10100 -> 10-> int , number-> String , String + int -> 預設輸出為String
+
+
+1. 利用 Function<> 轉型
+// < 原本的資料型態 , 轉換後的資料型態 >
+Function<String,Integer> f=(t)->Integer.parseInt(t);
+
+2.執行步驟 f.apply(t) -> 填入要轉型的值
+System.out.println(10+f.apply(number));
+
+print:
+110 -> 10 -> int , number -> int , int + int -> 輸出int
+
+
+//--------------------------------Supplier--------------------------------//
+
+宣告一個 String 變數
+String title="巨匠電腦";
+
+1.利用 Supplier<> 輸出資料
+Supplier<String> s1=()->title;
+
+2.執行步驟 s1.get() -> 要輸出的東西
+System.out.println(s1.get());
+
+print:
+巨匠電腦
+
+
+//-----------------------------Supplier OOP(物件導向)-----------------------------//
+
+做一個 class Member
+//field
+String name , address;
+
+//constructors
+Member(){ this.name="abc"; this.address="taipei";
+Member(String name,String address){ this.name=name; this.address=address;
+
+//methods
+set and get(name,address)
+
+main程式->
+
+1.利用 Supplier<> 新增一個Member物件
+Supplier<Member> s2=()->new Member();
+
+2.執行步驟 s2.get() 裡的 Member 的方法 .getName()
+System.out.println(s2.get().getName());
+
+print:
+abc
+
+
+1.宣告一個 Member物件 m 套用 s2.get()
+Member m=s2.get();
+
+2.因s2.get() 所以 m 現在是 Member 物件 所以使用Member的方法
+System.out.println(m.getName()+"\t"+m.getAddress());
+
+print:
+abc	taipei
+
+
+//-----------------------------Stream-----------------------------//
+
+////////////////////////////取出所有資料////////////////////////////
+
+1.宣告一個 List 類型 l 變數 指定為= Arrays裡方法 .asList()新增 -> .add()
+List<Integer> l=Arrays.asList(10,20,50,30,-5,-25);
+
+2.把 l 轉換成 Stream<> 類型
+Stream<Integer> s=l.stream();
+
+3.用 Consumer 規則 依序印出 t + " "
+Consumer<Integer> c=(t)->System.out.print(t+" ");
+
+4.用 Stream 裡的方法 forEach()
+s.forEach(c);
+
+print:
+10 20 50 30 -5 -25
+
+//把3.和4.合併起來
+s.forEach(t->System.out.println("number:"+t));
+
+print:
+number:10
+number:20
+number:50
+number:30
+number:-5
+number:-25
+
+
+////////////////////////////篩選並排列資料////////////////////////////
+
+1.宣告一個 List 類型 l 變數 指定為= Arrays裡方法 .asList()新增 -> .add()
+List<Integer> l=Arrays.asList(10,20,50,30,-5,-25,15,40,75);
+
+2. 篩選並排列資料 (拆解步驟)
+l -> Arrays 陣列
+
+.stream() -> 轉型stream
+
+.filter(t->t>=25) -> 篩選
+
+.sorted() -> 排列
+
+.forEach(t->System.out.print(t+" ")); -> 輸出
+
+print:
+30 40 50 75 
+
+
+
+///////////////////結合OOP(物件導向) 篩選並排列資料 (修改來源)///////////////////
+
+class Student
+//field
+String name; int chi,eng,math,sum
+
+//constructors
+Student(String name,int chi,int eng,int math){
+this.name=name
+.
+.
+.
+sum=chi+eng+math
+}
+
+//mathods
+get and set (name,chi,eng,math,sum)
+
+void show(){System.out.println("名稱:"+name+"\t國文"+chi...}
+
+
+Student->
+
+1. implements Comparable<> -> 要泛型的物件名稱
+class Student implements Comparable<Student>
+
+2. override Comparabel 的抽象方法
+public int compareTo(Student o)
+
+3.return 由小到大 Ex: 以 sum 為基準排列
+return this.sum-o.sum;
+
+*由大到小
+return o.sum-this.sum;
+
+
+main程式->
+
+1.宣告一個 List 類型 用 Arrays裡方法 .asList()新增 -> 物件
+
+*可以想成一維陣列大括號的寫法 int[] =new int[]{...}
+
+List<Student> l=Arrays.asList(
+	new Student("a1",80,75,60),
+	new Student("a2",70,85,90),
+	new Student("a3",75,95,65),
+	new Student("a4",65,60,80),
+	new Student("a5",60,70,95),
+	new Student("a6",55,95,75),
+	new Student("a7",85,95,50),
+	new Student("a8",60,60,75)
+	);
+
+2.篩選並排列資料 (拆解步驟)
+l -> Arrays 陣列
+
+.stream() -> 轉型stream
+
+.filter(t->t.getSum()>=200 && t.getSum()<=230) -> 篩選
+
+.sorted() -> 排列
+
+.forEach(t->t.show()); -> 輸出
+
+print:
+名稱:a7	國文:85	英文:95	數學:50	總分:230
+名稱:a5	國文:60	英文:70	數學:95	總分:225
+名稱:a6	國文:55	英文:95	數學:75	總分:225
+名稱:a1	國文:80	英文:75	數學:60	總分:215
+名稱:a4	國文:65	英文:60	數學:80	總分:205
+
+
+///////////////////結合OOP(物件導向) 篩選並排列資料 (不修改來源)///////////////////
+
+沿用上面的 Arrays 陣列
+
+1.排列資料 (拆解步驟)
+
+l -> Arrays 陣列
+
+.stream() -> 轉型stream
+
+.sorted((o1,o2)->o1.getSum()-o2.getSum()) -> 排列
+
+.forEach(s->s.show()); -> 輸出
+
+print:
+名稱:a8	國文:60	英文:60	數學:75	總分:195
+名稱:a4	國文:65	英文:60	數學:80	總分:205
+名稱:a1	國文:80	英文:75	數學:60	總分:215
+名稱:a5	國文:60	英文:70	數學:95	總分:225
+名稱:a6	國文:55	英文:95	數學:75	總分:225
+名稱:a7	國文:85	英文:95	數學:50	總分:230
+名稱:a3	國文:75	英文:95	數學:65	總分:235
+名稱:a2	國文:70	英文:85	數學:90	總分:245
+
+
+///////////////////結合OOP(物件導向) Lambda 多種功能使用選擇///////////////////
+
+沿用上面的 Arrays 陣列
+
+額外做一個 class 來存放要使用的功能
+
+class cal{
+
+	//排序基準為 sum 從大到小
+	public static int sort_by_sum(Student2 o1,Student2 o2) {
+		return o2.getSum()-o1.getSum();
+	}
+
+	//排序基準為 chi 從小到大
+	public static int sort_by_chi(Student2 o1,Student2 o2) {
+		return o1.getChi()-o2.getChi();
+	}
+
+	//排序基準為 eng 從小到大
+	public static int sort_by_eng(Student2 o1,Student2 o2) {
+		return o1.getEng()-o2.getEng();
+	}
+
+	//排序基準為 math 從小到大
+	public static int sort_by_math(Student2 o1,Student2 o2) {
+		return o1.getMath()-o2.getMath();
+	}
+}
+
+1.排列資料 (拆解步驟)
+
+l -> Arrays 陣列
+
+.stream() -> 轉型stream
+
+.sorted(Cal::sort_by_sum) -> 用 class Cal 裡的 sort_by_sum 排列
+
+.forEach(s->s.show()); -> 輸出
+
+print:
+名稱:a2	國文:70	英文:85	數學:90	總分:245
+名稱:a3	國文:75	英文:95	數學:65	總分:235
+名稱:a7	國文:85	英文:95	數學:50	總分:230
+名稱:a5	國文:60	英文:70	數學:95	總分:225
+名稱:a6	國文:55	英文:95	數學:75	總分:225
+名稱:a1	國文:80	英文:75	數學:60	總分:215
+名稱:a4	國文:65	英文:60	數學:80	總分:205
+名稱:a8	國文:60	英文:60	數學:75	總分:195
+
+//只要更換方法 .sorted(Cal::"方法")
+.sorted(Cal::sort_by_math) -> 用 class Cal 裡的 sort_by_math 排列
+就可以快速切換想要得結果
+
+print:
+名稱:a7	國文:85	英文:95	數學:50	總分:230
+名稱:a1	國文:80	英文:75	數學:60	總分:215
+名稱:a3	國文:75	英文:95	數學:65	總分:235
+名稱:a6	國文:55	英文:95	數學:75	總分:225
+名稱:a8	國文:60	英文:60	數學:75	總分:195
+名稱:a4	國文:65	英文:60	數學:80	總分:205
+名稱:a2	國文:70	英文:85	數學:90	總分:245
+名稱:a5	國文:60	英文:70	數學:95	總分:225
+
+
+
+
+
+
+
+
+
+
+
+
+
