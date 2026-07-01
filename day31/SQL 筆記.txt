@@ -1,0 +1,165 @@
+//==================================MYSQL==================================//
+
+//----------------------------------select----------------------------------//
+
+[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[通常用在數字]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+//查詢區間 (and) && true and true
+select 欄位 from Schemas資料夾.表 where 欄位 條件 值 and 欄位 條件 值;
+Ex:
+select * from w3schools.order_details where Quantity>=30 and Quantity<=40;
+
+#查詢區間(between)customers
+select 欄位 from Schemas資料夾.表 where 欄位 between 值 and 值;
+
+Ex:
+select * from w3schools.order_details where Quantity between 30 and 45;
+
+
+[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[通常用在文字]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+//查詢
+select 欄位 from Schemas資料夾.表 where 欄位 = 值;
+
+Ex:
+select * from w3schools.customers where Country='Mexico';
+
+//查詢 (not) 不是
+select 欄位 from Schemas資料夾.表 where not 欄位 = 值;
+
+Ex:
+select * from w3schools.customers where not Country='Mexico';
+
+
+////////////////////////////// or 系列 //////////////////////////////
+
+//查詢 (or) 或
+select 欄位 from Schemas資料夾.表 where 欄位 = 值 or 欄位 = 值;
+
+Ex:
+select * from w3schools.customers where Country='Mexico' or Country='France';
+
+//查詢 (or)(not) 或 (不是)
+select 欄位 from Schemas資料夾.表 where not 欄位 = 值 or 欄位 = 值;
+
+Ex:
+select * from w3schools.customers where not(Country='Mexico' or Country='France');
+
+
+////////////////////////////// in 系列 ///////////////////////////////
+
+//查詢 (in) 或 (另類寫法)
+select 欄位 from Schemas資料夾.表 where 欄位 in(值,值);
+
+Ex:
+select * from w3schools.customers where Country in('Canada','USA');
+
+//查詢 (in)(not) 或 (不是) (另類寫法)
+select 欄位 from Schemas資料夾.表 where 欄位 not in(值,值);
+
+Ex:
+select * from w3schools.customers where Country not in('Canada','USA','France');
+
+
+////////////////////////////// is null 系列 //////////////////////////////
+
+//查詢 (is null) 只能查空值
+select 欄位 from Schemas資料夾.表 where 欄位 is null;
+
+Ex:
+select * from w3schools.customers where CustomerName is null;
+
+//查詢 (is null)(not)
+select 欄位 from Schemas資料夾.表 where 欄位 is not null;
+
+Ex:
+select * from w3schools.customers where CustomerName is not null;
+
+
+////////////////////////////// like 系列 //////////////////////////////
+
+//查詢 (like %) 字首
+select 欄位 from Schemas資料夾.表 where 欄位 like 值%;
+
+Ex:
+select * from w3schools.customers where CustomerName like 'a%';
+
+//查詢 (like %) (not) 字首(不要)
+select 欄位 from Schemas資料夾.表 where 欄位 not like 值%;
+
+Ex:
+select * from w3schools.customers where CustomerName not like 'a%';
+
+//查詢 (like %n%) 中間有
+select 欄位 from Schemas資料夾.表 where 欄位 like %值%;
+
+Ex:
+select * from w3schools.customers where CustomerName like '%a%';
+
+//查詢 (like %n%) (not) 中間有(不要)
+select 欄位 from Schemas資料夾.表 where 欄位 not like %值%;
+
+Ex:
+select * from w3schools.customers where CustomerName not like '%a%';
+
+//查詢 (like %n) 最後
+select 欄位 from Schemas資料夾.表 where 欄位 like %值;
+
+Ex:
+select * from w3schools.customers where CustomerName like '%a';
+
+//查詢 (like %n) (not) 最後(不要)
+select 欄位 from Schemas資料夾.表 where 欄位 not like %值;
+
+Ex:
+select * from w3schools.customers where CustomerName not like '%a';
+
+//查詢 (like _n%) 第n個字 _ *一個底線=一個字
+select 欄位 from Schemas資料夾.表 where 欄位 like __值%;
+
+Ex:
+select * from w3schools.customers where CustomerName like '__a%';
+
+//查詢 (like _n%) 第n個字 _(不要) *一個底線=一個字
+select 欄位 from Schemas資料夾.表 where 欄位 not like __值%;
+
+Ex:
+select * from w3schools.customers where CustomerName not like '__a%';
+
+
+////////////////////////////// 排序 order by //////////////////////////////
+
+//查詢排序 order by 預設:小->大
+select 欄位 from Schemas資料夾.表 order by 欄位;
+
+Ex:
+select * from w3schools.order_details order by Quantity;
+
+//查詢排序 order by (desc)大->小
+select 欄位 from Schemas資料夾.表 order by 欄位 desc;
+
+Ex:
+select * from w3schools.order_details order by Quantity desc;
+
+
+/////////////////////// 修改名稱 (但來源不會變) as ///////////////////////
+
+//查詢 修改名稱(但來源不會變)
+select 欄位 as 新名稱 from Schemas資料夾.表;
+
+Ex:
+select CustomerID as 客戶編號 , Address as 地址 from w3schools.customers;
+
+//查詢 修改名稱(但來源不會變) 應用
+select 欄位 , 欄位 as 新名稱 from Schemas資料夾.表;
+
+Ex:
+select * , Quantity*0.9 as 9折 from w3schools.order_details;
+
+
+
+
+
+
+
+

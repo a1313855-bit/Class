@@ -1,0 +1,65 @@
+截止日期
+
+7/8(水) 10:00
+
+檔案
+1.GitHub
+2.jar
+3.sql
+4.Maven Project
+
+製作順序:
+1.草稿 -> ChatGPT -> zip-
+                         |->產生sql檔
+2.除錯,修復,存sql -> zip-
+
+3.word寫規則,流程圖
+->UI
+->sql檔 -> UI(輸入),報表
+
+
+//////////寫法//////////
+
+1開發環境
+
+2.開發工具與規則
+
+3.資料夾
+
+4.功能
+
+做成zip
+
+
+
+//////////老師範例//////////
+
+給我一個簡易購物系統範例
+
+1.開發環境
+jdk 11
+mysql8.0
+
+2.開發工具與規則
+Eclipse java Se+windowBuilder
+遵守 MVC+dao Pattern
+
+Maven project 製作
+
+
+3.資料夾
+
+model
+dao.impl
+service.impl
+controller
+util
+exception
+
+
+4.功能
+會員登入與CRUD
+購物CRUD
+
+
+做成zip
