@@ -1,0 +1,64 @@
+//------------------------------ inner join on ------------------------------//
+
+Ex:
+select #要找的欄位
+porder.order_no, 
+employee.name,
+customer.name,
+product.name,
+porder.amount,
+porder.amount*product.price
+from #資料存在的欄位
+company3.porder
+#inner join 和現在這張表比對相同的才會留下 on 這兩張表相同的部分(接線)
+inner join company3.employee on company3.porder.employee_no=company3.employee.employee_no
+inner join company3.customer on company3.porder.customer_no=company3.customer.customer_no
+inner join company3.product on company3.porder.product_no=company3.product.product_no;
+
+
+//------------------------------ View ------------------------------//
+
+
+
+稱為"檢視表"
+內容無法修改，只能查詢、讀取。
+內容若有修改也是從Table(原來的表)
+
+創建一個View
+
+View右鍵 -> Create View ->
+
+*注意:搜尋欄位名稱不能相同 -> 像這裡有 employee.name,customer.name,product.name 就不行
+必須要不同的欄位名稱
+
+Ex:
+CREATE VIEW `select_by_01` AS select
+porder.order_no, 
+employee.name, as 員工姓名
+customer.name, as 客戶姓名
+product.name, as 商品名稱
+porder.amount,
+porder.amount*product.price
+from
+company3.porder
+inner join company3.employee on company3.porder.employee_no=company3.employee.employee_no
+inner join company3.customer on company3.porder.customer_no=company3.customer.customer_no
+inner join company3.product on company3.porder.product_no=company3.product.product_no;
+
+
+//==================================Eclipse==================================//
+
+//-------------------------- 口: entity 裡新增 vo --------------------------//
+
+vo 裡面放的就是 SQL View 的表
+
+由於只能做查詢、讀取功能 所以不會有建構式(新增)
+
+private String orderNo;
+private String empolyeeNo;
+private String customerNo;
+private String productNo;
+private int amount;
+private int totleMoney;
+
+get and set
