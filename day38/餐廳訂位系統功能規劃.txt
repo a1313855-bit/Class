@@ -1,0 +1,623 @@
+# 餐廳訂位系統功能規劃
+
+## 一、系統定位
+
+本系統是一套「餐廳訂位管理系統」，適合用來做 Java 教學專案、學生專題、企業內訓範例或接案作品展示。
+
+建議開發版本：
+
+- **JDK 11**
+- **MySQL 8.0**
+- **Eclipse**
+- **Maven Project**
+- **WindowBuilder / JFrame**
+- **MVC + DAO Pattern**
+- **Apache POI 匯出 Excel 報表**
+
+---
+
+# 二、系統主要功能總覽
+
+訂位系統可以分成五大模組：
+
+1. 前台使用者功能
+2. 後台管理功能
+3. 桌位與時段管理
+4. 報表與統計功能
+5. 進階擴充功能
+
+---
+
+# 三、前台使用者功能
+
+## 1. 會員功能
+
+使用者可以註冊、登入、修改個人資料，並查詢自己的訂位紀錄。
+
+| 功能 | 說明 |
+|---|---|
+| 會員註冊 | 建立會員資料，例如姓名、帳號、密碼、電話、Email |
+| 會員登入 | 使用帳號與密碼登入系統 |
+| 修改會員資料 | 修改電話、Email、密碼等資料 |
+| 查詢訂位紀錄 | 查詢自己的歷史訂位紀錄 |
+| 取消訂位 | 在規定時間內取消訂位 |
+
+### 會員基本欄位
+
+| 欄位 | 說明 |
+|---|---|
+| id | 會員編號 |
+| name | 姓名 |
+| username | 帳號 |
+| password | 密碼 |
+| phone | 電話 |
+| email | 電子信箱 |
+| created_at | 建立時間 |
+
+---
+
+## 2. 訂位功能
+
+訂位功能是整個系統的核心。
+
+| 功能 | 說明 |
+|---|---|
+| 選擇日期 | 選擇要訂位的日期 |
+| 選擇時段 | 例如 11:00、12:00、18:00、19:00 |
+| 選擇人數 | 例如 1 至 10 人 |
+| 查詢空位 | 根據日期、時段、人數查詢是否可訂位 |
+| 建立訂位 | 將訂位資料寫入資料庫 |
+| 修改訂位 | 修改日期、時段、人數或備註 |
+| 取消訂位 | 將訂位狀態改為取消 |
+
+---
+
+## 3. 訂位狀態管理
+
+訂位資料不建議直接刪除，應該透過狀態欄位管理。
+
+| 狀態 | 說明 |
+|---|---|
+| 已訂位 | 訂位成功 |
+| 已取消 | 使用者或管理員取消 |
+| 已完成 | 客人已到場並完成用餐 |
+| 未到場 | 客人未依約到場，No-show |
+| 候補中 | 沒有空位時排候補 |
+
+---
+
+# 四、後台管理功能
+
+## 1. 訂位管理
+
+管理員可以查看與維護所有訂位資料。
+
+| 功能 | 說明 |
+|---|---|
+| 查詢所有訂位 | 依日期、時段、會員、狀態查詢 |
+| 新增訂位 | 電話訂位時由櫃台人員新增 |
+| 修改訂位 | 修改人數、日期、時段、桌位、備註 |
+| 取消訂位 | 後台取消訂位資料 |
+| 確認到場 | 將狀態改為已完成 |
+| 標記未到場 | 將狀態改為未到場 |
+
+---
+
+## 2. 桌位管理
+
+餐廳訂位系統通常需要桌位資料，用來判斷是否還有空位。
+
+| 功能 | 說明 |
+|---|---|
+| 新增桌位 | 例如 A01、A02、B01 |
+| 修改桌位 | 修改桌號、容納人數 |
+| 停用桌位 | 桌位維修或不開放時停用 |
+| 桌位狀態管理 | 可用、維修中、停用 |
+| 桌位分配 | 幫訂位分配桌號 |
+
+### 桌位範例
+
+| 桌號 | 容納人數 | 狀態 |
+|---|---:|---|
+| A01 | 2 | 可用 |
+| A02 | 4 | 可用 |
+| B01 | 6 | 可用 |
+| C01 | 8 | 維修中 |
+
+---
+
+## 3. 時段管理
+
+管理餐廳可開放訂位的時間。
+
+| 功能 | 說明 |
+|---|---|
+| 新增時段 | 例如 11:00、12:00、18:00 |
+| 修改時段 | 修改開始時間與結束時間 |
+| 停用時段 | 特定時段不開放訂位 |
+| 設定最大訂位量 | 每個時段最多可接受幾組或幾人 |
+
+### 時段範例
+
+| 時段 | 開始時間 | 結束時間 | 最大人數 | 狀態 |
+|---|---|---|---:|---|
+| 午餐 1 | 11:00 | 12:30 | 30 | 開放 |
+| 午餐 2 | 12:30 | 14:00 | 30 | 開放 |
+| 晚餐 1 | 18:00 | 19:30 | 40 | 開放 |
+| 晚餐 2 | 19:30 | 21:00 | 40 | 開放 |
+
+---
+
+## 4. 黑名單與 No-show 管理
+
+避免客人多次訂位後未到場。
+
+| 功能 | 說明 |
+|---|---|
+| 記錄未到場 | 將訂位狀態改為未到場 |
+| No-show 次數統計 | 統計會員未到場次數 |
+| 限制訂位 | 超過指定次數後限制線上訂位 |
+| 管理員備註 | 記錄特殊原因或處理狀況 |
+
+---
+
+# 五、資料庫設計
+
+## 1. 主要資料表
+
+| 資料表 | 說明 |
+|---|---|
+| member | 會員資料 |
+| reservation | 訂位資料 |
+| table_info | 桌位資料 |
+| time_slot | 訂位時段 |
+| admin | 管理員資料 |
+| reservation_log | 訂位異動紀錄 |
+
+---
+
+## 2. member 會員資料表
+
+| 欄位 | 型別建議 | 說明 |
+|---|---|---|
+| id | int | 會員編號，主鍵 |
+| name | varchar(50) | 姓名 |
+| username | varchar(50) | 登入帳號 |
+| password | varchar(100) | 登入密碼 |
+| phone | varchar(20) | 電話 |
+| email | varchar(100) | 電子信箱 |
+| created_at | datetime | 建立時間 |
+
+---
+
+## 3. reservation 訂位資料表
+
+| 欄位 | 型別建議 | 說明 |
+|---|---|---|
+| id | int | 訂位編號，主鍵 |
+| member_id | int | 會員編號，外鍵 |
+| reservation_date | date | 訂位日期 |
+| time_slot_id | int | 時段編號，外鍵 |
+| people_count | int | 訂位人數 |
+| table_id | int | 桌位編號，外鍵 |
+| status | varchar(20) | 訂位狀態 |
+| note | varchar(255) | 備註 |
+| created_at | datetime | 建立時間 |
+
+---
+
+## 4. table_info 桌位資料表
+
+| 欄位 | 型別建議 | 說明 |
+|---|---|---|
+| id | int | 桌位編號，主鍵 |
+| table_no | varchar(20) | 桌號 |
+| capacity | int | 可容納人數 |
+| status | varchar(20) | 桌位狀態 |
+
+---
+
+## 5. time_slot 訂位時段資料表
+
+| 欄位 | 型別建議 | 說明 |
+|---|---|---|
+| id | int | 時段編號，主鍵 |
+| start_time | time | 開始時間 |
+| end_time | time | 結束時間 |
+| max_people | int | 最大可訂人數 |
+| status | varchar(20) | 是否開放 |
+
+---
+
+# 六、報表功能
+
+訂位系統很適合加入 Excel 匯出功能，方便管理者查看營運狀況。
+
+| 報表 | 說明 |
+|---|---|
+| 每日訂位報表 | 查詢某一天所有訂位 |
+| 每月訂位統計 | 統計每月訂位數 |
+| 時段熱門統計 | 分析哪些時段最熱門 |
+| No-show 統計 | 查詢哪些會員常未到場 |
+| 會員訂位紀錄 | 查詢單一會員歷史訂位紀錄 |
+| Excel 匯出 | 將查詢結果輸出成 Excel |
+
+---
+
+# 七、畫面功能規劃
+
+## 1. 登入畫面 LoginFrame
+
+### 欄位
+
+- 帳號
+- 密碼
+
+### 按鈕
+
+- 登入
+- 註冊
+- 離開
+
+---
+
+## 2. 主選單畫面 MainFrame
+
+### 功能按鈕
+
+- 會員管理
+- 新增訂位
+- 查詢訂位
+- 修改訂位
+- 取消訂位
+- 桌位管理
+- 時段管理
+- 報表匯出
+- 系統離開
+
+---
+
+## 3. 新增訂位畫面 ReservationFrame
+
+### 欄位
+
+- 會員姓名
+- 電話
+- 訂位日期
+- 訂位時段
+- 訂位人數
+- 桌位
+- 備註
+
+### 按鈕
+
+- 查詢空位
+- 新增訂位
+- 清除
+- 返回
+
+---
+
+## 4. 查詢訂位畫面 ReservationQueryFrame
+
+### 查詢條件
+
+- 訂位日期
+- 會員電話
+- 訂位狀態
+
+### JTable 顯示欄位
+
+| 訂位編號 | 姓名 | 電話 | 日期 | 時段 | 人數 | 桌號 | 狀態 |
+|---|---|---|---|---|---:|---|---|
+
+---
+
+## 5. 報表畫面 ReportFrame
+
+### 功能
+
+- 依日期匯出 Excel
+- 依月份匯出 Excel
+- 匯出所有訂位紀錄
+- 匯出 No-show 報表
+
+---
+
+# 八、Java 專案資料夾建議
+
+```text
+src/main/java
+ ├─ model
+ │   ├─ Member.java
+ │   ├─ Reservation.java
+ │   ├─ TableInfo.java
+ │   └─ TimeSlot.java
+ │
+ ├─ dao
+ │   ├─ MemberDao.java
+ │   ├─ ReservationDao.java
+ │   ├─ TableInfoDao.java
+ │   └─ TimeSlotDao.java
+ │
+ ├─ dao.impl
+ │   ├─ MemberDaoImpl.java
+ │   ├─ ReservationDaoImpl.java
+ │   ├─ TableInfoDaoImpl.java
+ │   └─ TimeSlotDaoImpl.java
+ │
+ ├─ service
+ │   ├─ MemberService.java
+ │   ├─ ReservationService.java
+ │   └─ ReportService.java
+ │
+ ├─ service.impl
+ │   ├─ MemberServiceImpl.java
+ │   ├─ ReservationServiceImpl.java
+ │   └─ ReportServiceImpl.java
+ │
+ ├─ controller
+ │   ├─ MemberController.java
+ │   └─ ReservationController.java
+ │
+ ├─ util
+ │   ├─ DBUtil.java
+ │   ├─ ExcelUtil.java
+ │   └─ DateUtil.java
+ │
+ ├─ exception
+ │   ├─ ReservationException.java
+ │   └─ DataNotFoundException.java
+ │
+ └─ view
+     ├─ LoginFrame.java
+     ├─ MainFrame.java
+     ├─ ReservationFrame.java
+     ├─ ReservationQueryFrame.java
+     └─ ReportFrame.java
+```
+
+---
+
+# 九、適合教學的三個版本
+
+## 版本一：簡易版
+
+適合初學者與第一階段教學。
+
+### 功能
+
+1. 會員登入
+2. 新增訂位
+3. 查詢訂位
+4. 修改訂位
+5. 取消訂位
+6. Excel 匯出
+
+### 資料表
+
+1. member
+2. reservation
+
+### 適合技術
+
+- JDK 11
+- MySQL 8.0
+- Eclipse
+- WindowBuilder
+- Maven
+- MVC + DAO Pattern
+
+---
+
+## 版本二：標準版
+
+適合正式課程作品。
+
+### 功能
+
+1. 會員管理
+2. 訂位管理
+3. 桌位管理
+4. 時段管理
+5. 訂位狀態管理
+6. Excel 報表輸出
+7. No-show 管理
+
+### 資料表
+
+1. member
+2. reservation
+3. table_info
+4. time_slot
+5. admin
+
+---
+
+## 版本三：進階版
+
+適合專題、接案展示或進階課程。
+
+### 功能
+
+1. 線上訂位
+2. 自動分配桌位
+3. 候補系統
+4. 訂位簡訊通知
+5. Email 通知
+6. 訂金付款
+7. QR Code 報到
+8. Power BI 訂位分析
+9. 後台儀表板
+10. 多分店管理
+11. AI 預測熱門時段
+
+---
+
+# 十、最小可完成版本 MVP
+
+如果學生是初學者，建議先完成 MVP 版本。
+
+## MVP 功能
+
+1. 會員登入
+2. 新增訂位
+3. 查詢訂位
+4. 修改訂位
+5. 取消訂位
+6. JTable 顯示資料
+7. MySQL 儲存資料
+8. Excel 匯出報表
+
+---
+
+# 十一、建議開發流程
+
+## 第 1 階段：建立資料庫
+
+1. 建立 schema
+2. 建立 member 資料表
+3. 建立 reservation 資料表
+4. 建立測試資料
+
+---
+
+## 第 2 階段：建立 Java Maven 專案
+
+1. 建立 Maven Project
+2. 設定 `pom.xml`
+3. 加入 MySQL Connector/J
+4. 加入 Apache POI
+5. 建立 MVC + DAO 資料夾結構
+
+---
+
+## 第 3 階段：建立資料庫連線
+
+1. 建立 `DBUtil.java`
+2. 測試 MySQL 連線
+3. 建立基本查詢功能
+
+---
+
+## 第 4 階段：建立 Model
+
+1. `Member.java`
+2. `Reservation.java`
+3. `TableInfo.java`
+4. `TimeSlot.java`
+
+---
+
+## 第 5 階段：建立 DAO
+
+1. `MemberDao.java`
+2. `MemberDaoImpl.java`
+3. `ReservationDao.java`
+4. `ReservationDaoImpl.java`
+
+---
+
+## 第 6 階段：建立 Service
+
+1. 會員登入邏輯
+2. 新增訂位邏輯
+3. 查詢訂位邏輯
+4. 修改訂位邏輯
+5. 取消訂位邏輯
+
+---
+
+## 第 7 階段：建立 JFrame UI
+
+1. 登入畫面
+2. 主選單畫面
+3. 新增訂位畫面
+4. 查詢訂位畫面
+5. 報表匯出畫面
+
+---
+
+## 第 8 階段：建立 Excel 匯出
+
+1. 建立 `ExcelUtil.java`
+2. 查詢訂位資料
+3. 將 JTable 或 List 資料匯出成 Excel
+4. 儲存成 `.xlsx`
+
+---
+
+# 十二、課堂教學建議
+
+## 適合教學時數
+
+| 課程長度 | 建議內容 |
+|---|---|
+| 3 小時 | 做登入、新增訂位、查詢訂位 |
+| 6 小時 | 加入修改、取消、JTable 顯示 |
+| 9 小時 | 加入 Excel 匯出與 DAO 完整分層 |
+| 12 小時 | 加入桌位管理、時段管理、報表統計 |
+| 18 小時以上 | 加入進階功能與完整後台管理 |
+
+---
+
+# 十三、建議專案名稱
+
+```text
+restaurant-reservation-system
+```
+
+中文名稱：
+
+```text
+餐廳訂位管理系統
+```
+
+---
+
+# 十四、建議學習重點
+
+學生完成此專案後，應該學會：
+
+1. Java SE 專案開發流程
+2. Maven 專案建立與套件管理
+3. MySQL 資料表設計
+4. JDBC 資料庫連線
+5. DAO Pattern
+6. MVC 架構分層
+7. JFrame / WindowBuilder UI 設計
+8. JTable 資料顯示
+9. CRUD 功能設計
+10. Excel 報表輸出
+11. 例外處理
+12. 專案打包與交付
+
+---
+
+# 十五、總結
+
+餐廳訂位系統非常適合當作 Java 初中階專案，因為它同時包含：
+
+- 會員登入
+- CRUD 操作
+- MySQL 資料庫
+- MVC + DAO Pattern
+- JFrame UI
+- JTable 資料顯示
+- Excel 報表匯出
+- 實務情境設計
+
+建議第一版先完成 MVP：
+
+```text
+會員登入 + 新增訂位 + 查詢訂位 + 修改訂位 + 取消訂位 + Excel 匯出
+```
+
+這樣最適合用在：
+
+- Java SE 課程
+- Eclipse + WindowBuilder 教學
+- MySQL 資料庫教學
+- MVC + DAO Pattern 教學
+- 學生作品集
+- 接案作品展示

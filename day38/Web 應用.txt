@@ -1,0 +1,15 @@
+用ChatGPT
+幫我改成-
+1)UI使用html+css+javaScript+bootStrap 
+2)Spring boot3+jpa+mysql 
+3)遵守Mvc+dao pattern 
+
+做成zip
+
+把自己的Maven專案傳給他
+
+====================================================================================
+
+WebSocket 即時聊天
+
+Spring Boot WebSocket 多人搶寶石遊戲

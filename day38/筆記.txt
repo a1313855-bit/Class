@@ -1,0 +1,39 @@
+1.JDK21
+2.MySQL 8.0
+3.Spring boot3 + Eclipse Java EE(Web)
+
+AI->ChatGPT
+1.主題(問) 2.功能? 3.UI流程 4.sample
+
+              Test ful
+                  ^
+ froatEnd         |       backEnd
+------------    TCP/IP   ------------            ------------
+|    UI    |  ---------> |   Java   | ---------> |   MySQL  |
+------------  <--------- ------------            ------------
+
+   HTML                  Spring boot3
+   CSS           ORM     JPA(MyBatis)
+JavaScript                 MySQL
+ bootStrap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
