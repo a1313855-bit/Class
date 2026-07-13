@@ -1,0 +1,86 @@
+參考老師資料:JavaEE_Tomcat10_Installation_Guide
+
+//==========================設定 Tomcat 歡迎頁==========================//
+
+1) 檢查 Java 版本
+
+在 CMD 執行：
+
+java -version
+javac -version
+
+注意:Tomcat最低使用版本必須為 Java 17
+
+2) 設定環境變數
+
+系統設定->搜尋:編輯系統環境變數->進階->環境變數->新增
+
+1. 變數名稱 : CATALINA_HOME
+   變數值   : Tomcat 解壓目錄 Ex: C:\apache-tomcat-10
+
+2. 變數名稱 : JAVA_HOME
+   變數值   : JDK 安裝目錄Ex: C:\Program Files\Java\jdk-17
+
+3. Path->編輯->新增->JDK 安裝目錄+bin Ex: C:\Program Files\Java\jdk-17\bin
+
+測試:
+
+打開 CMD-> 進入 Tomcat 解壓目錄的 bin，執行 Ex: C:\apache-tomcat-10.1.25\bin
+
+進入後輸入指令 : startup  *注意:localhost:8080 只能同時執行一個 所以Eclipse要先停掉
+
+啟動後，開啟瀏覽器至 http://localhost:8080/ Tomcat 歡迎頁(成功!)
+
+
+//======================= Eclipse做出的網頁放進 Tomcat =======================//
+
+1) 匯出做好的網頁
+
+Eclipse->要匯出的專案(右鍵)->Export->War File->Destination(輸出地點) Ex:C:\temp
+
+2) 把檔案放到 Tomcat 資料夾
+
+到輸出的地點找到剛剛匯出的 .war 複製下來 
+
+-> 放到 Tomcat 資料夾裡的 webapps Ex: C:\apache-tomcat-10.1.25\webapps
+
+3) 執行CMD
+
+進入 Tomcat 解壓目錄的 bin，執行 Ex: C:\apache-tomcat-10\bin
+
+進入後輸入指令 : startup  *注意:localhost:8080 只能同時執行一個 所以Eclipse要先停掉
+
+啟動後，開啟瀏覽器至 
+http://localhost:8080/資料夾名稱 Ex: Web0713/要顯示的網頁 Ex:index.jsp 
+
+顯示出網頁(成功!)
+
+
+//======================= 設定 Tomcat 管理介面 =======================//
+
+在 conf/tomcat-users.xml 中新增使用者及角色 
+                                      *xml and html 註解語法 <!-- 註解內容 -->
+1) 把註解刪除
+
+2) 新增:
+<role rolename="manager-gui"/>
+<role rolename="admin-gui"/>
+
+3) 修改:
+<user username="tomcat" password="tomcat" roles="tomcat,manager-gui,admin-gui"/>
+<user username="both" password="both" roles="tomcat,role1"/>
+<user username="role1" password="role1" roles="role1"/>
+
+4) 執行CMD
+
+進入 Tomcat 解壓目錄的 bin，執行 Ex: C:\apache-tomcat-10\bin
+
+進入後輸入指令 : startup  *注意:localhost:8080 只能同時執行一個 所以Eclipse要先停掉
+
+啟動後，開啟瀏覽器至 http://localhost:8080/ Tomcat 歡迎頁
+
+點選 Server Status 查看 Tomcat 管理介面
+
+輸入帳號密碼: 目前帳號密碼設定為 tomcat
+
+進入後看到目前的網頁的詳細資訊

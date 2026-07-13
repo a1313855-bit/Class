@@ -1,0 +1,60 @@
+//==================================教學內容==================================//
+
+1.Java web   2.框架(Server)        3.Spring Boot        4.前端框架
+  JSP+EL       JAX-RS (Web MVC)      MVC                  JavaScript
+  Servlet      JPA(DB)               Spring DataJPA       JQuery
+  Listener     hibernate                                  React
+  jdbc
+  MVC
+
+//=================================Eclipse 設定=================================//
+
+//環境設定(Java)
+
+開啟Eclipse->Window->Preferences->Java->Installed JREs->找到要使用的版本(jdk-21.0.10)
+
+//環境設定(Service)
+
+開啟Eclipse->Window->Preferences->Service->Runtime Environmerts->Add->Apache
+
+->Apache Tomcat v10.1->選擇你的 Tomcat 資料夾->選擇你的jdk版本->Finish
+
+->測試是否成功->Window->Show View->Servers->測試執行(第一次通常會失敗)
+
+->停止後再測試一次
+
+//開啟瀏覽器設定
+
+開啟Eclipse->Window->Web Browser->選擇開啟的瀏覽器(Chrome)
+
+
+//===============================建立一個檔案===============================//
+
+//建立一個 Dynamic Web Project
+
+File->New->Dynamic Web Project->Project name(輸入專案名稱)
+
+->Target runtime(Apache Tomcatv10.1)->Dynamic web module version(6.0)
+
+->"注意": 選 Next 到 Web Module -> Generate web.xml deployment descriptor 打勾
+
+//建立一個 JSP File
+
+src/main/webapp->New->JSP File->寫上名稱(index.jsp)->Finish
+
+//=============================嘗試做出一個網頁=============================//
+
+index.jsp-> <body> 要執行的程式寫在這裡 </body>
+
+寫一段文字 <h1> 打上文字 </h1>
+
+測試:Run as->選擇 Tomcat v10.1 Server at localhost->Finish
+
+跳出網頁(成功!) 如果網頁是 404 (搜尋不到資料)->可能 JSP File 放到 WEB-INF裡
+
+//如果WEB-INF/web.xml有錯誤訊息
+
+Window->Preferences
+
+->XML(Wild Web Developer)->Download external resources like referenced DTD,XSD 打勾
+

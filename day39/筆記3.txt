@@ -1,0 +1,131 @@
+ Browser                             Tomcat
+---------        (請求request)      ---------
+|       |   --------------------->  |       |   Web Container
+|       |    (回應response)(htme)   |       |      Sevulet
+---------   <---------------------  ---------        JSP
+
+//============================ 創建 Sevulet ============================//
+
+1) 找到創建地點
+
+專案名稱/Java Resources/src/main/java->右鍵-
+
+2) 按右鍵創建一個Servlet
+
+New->Servlet->Class name(輸入名稱) ->Next
+
+3) 找到 URL mappings 寫下網址
+
+Ex:
+URL mappings:
+/TestServlet -> Edit ->改成 test(網址大部分都用小寫)
+
+4) 按下Finish完成
+
+5) Run as 測試
+
+
+//======================== 用靜態Class 寫一個Servlet ========================//
+
+1) 創建一個靜態 Class
+
+2) extends HttpServlet 並 import
+
+3) Override HttpServlet方法 doGet 和 doPost
+
+4) 在doGet方法裡寫入文字
+
+resp.getWriter().append("Hello world");
+
+5) Run as 測試
+
+
+//----------------------------- 延伸應用 -----------------------------//
+
+1) 創建一個 JSP File
+
+專案名稱/src/main/webapp->右鍵
+
+2) 靜態Class的網址名稱
+
+3) 在 doPost 寫入
+
+<form action="hello" method="post">
+   Name:<input type="text" name="username" value="Danny"/><br/>
+   <input type="submit"/>
+</form>
+
+1.<from>網頁裡出現的內容<from/>
+2.input type 出現的類型 submit->按鈕 text->輸入框
+3.name 輸入框的變數名稱
+4.value 輸入框裡的值
+
+4) 接收前端(UI)參數
+
+String n = req.getParameter("username");
+
+5) 接收前端(UI)參數在終端機印出測試
+
+System.out.println("input name is " + n);
+
+6) 後端回應前端
+
+resp.getWriter().append("Post Username is " + n);
+
+
+//======================== 輸入(出)結果為中文 ========================//
+
+利用上面的例子 如果
+
+<form action="hello" method="post">
+   Name:<input type="text" name="username" value="丹尼"/><br/>
+   <input type="submit"/>
+</form>
+
+這邊文字輸入框內的值是中文->網頁編碼輸出會是亂碼
+
+1) 到 HelloServlet doPost 
+
+2) 讀取時使用的編碼
+
+req.setCharacterEncoding("utf-8");
+
+3) 送出時的格式類型
+
+resp.setContentType("text/html;charset=UTF-8")
+
+4) 送出時使用的編碼
+
+resp.setCharacterEncoding(utf-8";
+
+
+//======================== 顯示網頁開啟時間 ========================//
+
+1) 到 HelloServlet doGet
+
+2) 取得電腦現在時間
+
+LocalDateTime now=LocalDate.now();
+
+3) 取得的時間用 yyyy-MM-dd-HH:mm:ss 的格式表示
+
+DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+
+String currentTime=now.forment(formatter);
+
+4) 送出時間結果
+
+resp.getWriter().append(currentTime);
+
+
+
+
+
+
+
+
+
+
+
+
+
