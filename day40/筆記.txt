@@ -1,0 +1,105 @@
+JSTL
+-> Java Standard Tag Librery
+
+JSP+EL語法:
+${   }
+${ param.口 }   口:html 裡面的變數名稱
+
+//=========================Maven project(老師設定過)=========================//
+
+1) 使用老師部分設定好的模板
+
+位置:C:\mvwebtemplate 複製到 C:\Eclipse_JavaEE Eclipse 工作區
+
+2) 把資料夾檔名改成要創建的專案名稱
+
+mvwebtemplate(模板) -> Ex: MavenWeb
+
+3) 進到資料夾中修改 pom.mxl 的檔案名稱(共有三個地方)
+
+1.<artifactId>MavenWeb0714</artifactId>
+
+2.<name>MavenWeb0714 Maven Webapp</name>
+
+3.<finalName>MavenWeb0714</finalName>
+
+原本 mvwebtemplate 改成目前的專案名稱 Ex: MavenWeb
+
+4) 開啟 Eclipse import 剛剛丟進工作區修改好的模板
+
+File -> Import -> Maven -> Existing Maven Projects -> Browse(找到要匯入的專案)
+
+-> Add project(s) to working set 打勾 -> Finish
+
+5) 檢查環境版本
+
+右鍵專案 -> Build Path -> Configure Build Path 
+
+-> 先檢查
+
+Libraries 有沒有 Server Runtime [Apache Tomcat v10.1] -> Apache Tomcat 版本
+
+JRE System Library [Java SE-21] -> Java SE 版本
+
+6) 若有缺少的話
+
+Project Facets -> Apply 
+
+-> 檢查 Details 
+
+Dynamic Web Services 6.0 
+
+Java 21
+
+Java Script 1.0
+
+-> 檢查 Runtimes
+
+Apache Tomcat v10.1 打勾
+
+都完成 Apply
+
+
+//========================= 打包 Maven project =========================//
+
+1) 先在 pom.mxl 裡面加上
+
+<!-- Jakarta Servlet API (Tomcat 10.1) -->
+<dependency>
+	<groupId>jakarta.servlet</groupId>
+	<artifactId>jakarta.servlet-api</artifactId>
+	<version>6.0.0</version>
+	<scope>provided</scope>
+</dependency>
+
+<!-- Jakarta JSP API (Tomcat 10.1) -->
+<dependency>
+	<groupId>jakarta.servlet.jsp</groupId>
+	<artifactId>jakarta.servlet.jsp-api</artifactId>
+	<version>3.0.0</version>
+	<scope>provided</scope>
+</dependency>
+
+<!-- JSTL -->
+<dependency>
+	<groupId>jakarta.servlet.jsp.jstl</groupId>
+	<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+	<version>3.0.0</version>
+</dependency>
+
+這三個插件
+
+2) 打包成 .war
+
+右鍵專案 -> Run as -> Maven intell
+
+就可以在專案裡面的 target 裡面找到 .war 檔案了!
+
+
+
+
+
+
+
+
+

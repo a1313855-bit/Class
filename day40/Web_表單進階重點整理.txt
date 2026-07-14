@@ -1,0 +1,268 @@
+HTML 表單進階重點整理（Radio、Checkbox、required）
+
+==================================================
+【input type="radio"】
+==================================================
+
+用途：
+- 建立單選按鈕（Radio Button）。
+- 同一組只能選擇一個選項。
+
+例如：
+
+<input type="radio" name="gender" value="male">
+<input type="radio" name="gender" value="female">
+<input type="radio" name="gender" value="other">
+
+重點：
+
+name
+- 同一組 Radio 必須使用相同的 name。
+- 瀏覽器才知道它們屬於同一組，只能選一個。
+
+value
+- 真正送到伺服器的值。
+- 使用者看到的是後面的文字。
+
+例如：
+
+<input type="radio" name="gender" value="male"> 男性
+
+畫面：
+○ 男性
+
+送出資料：
+gender=male
+
+
+==================================================
+【input type="checkbox"】
+==================================================
+
+用途：
+- 建立核取方塊（Checkbox）。
+- 可以同時選擇多個。
+
+例如：
+
+<input type="checkbox" name="hobbies" value="reading">
+<input type="checkbox" name="hobbies" value="music">
+
+可以同時勾選：
+
+☑ reading
+☑ music
+
+送出資料：
+
+hobbies=reading
+hobbies=music
+
+重點：
+
+Checkbox 可以使用相同的 name。
+
+JSP 可以透過：
+
+request.getParameterValues()
+
+取得所有勾選的資料。
+
+
+==================================================
+【required】
+==================================================
+
+用途：
+- 表示此欄位必填。
+
+例如：
+
+<input type="text" name="name" required>
+
+如果沒有輸入資料：
+
+瀏覽器會阻止表單送出。
+
+注意：
+
+required 只能檢查：
+
+「是否有輸入」
+
+不能檢查：
+
+- 是否為數字
+- 是否符合格式
+- 是否合理
+
+
+==================================================
+【Radio 與 Checkbox 差別】
+==================================================
+
+Radio
+
+用途：
+一次只能選一個。
+
+例如：
+
+性別
+付款方式
+
+Checkbox
+
+用途：
+可以同時選很多個。
+
+例如：
+
+興趣
+專長
+喜歡的食物
+
+
+==================================================
+【request.getParameterValues()】
+==================================================
+
+用途：
+
+取得同一個 name 的多筆資料。
+
+例如：
+
+<input type="checkbox"
+       name="hobbies"
+       value="reading">
+
+<input type="checkbox"
+       name="hobbies"
+       value="music">
+
+JSP：
+
+String[] hobbies =
+    request.getParameterValues("hobbies");
+
+回傳：
+
+reading
+music
+
+放入：
+
+String[] 陣列
+
+
+==================================================
+【request.getParameter() 與 getParameterValues()】
+==================================================
+
+request.getParameter()
+
+用途：
+
+取得單一資料。
+
+例如：
+
+姓名
+性別
+付款方式
+
+回傳：
+
+String
+
+
+request.getParameterValues()
+
+用途：
+
+取得多筆資料。
+
+例如：
+
+Checkbox
+
+回傳：
+
+String[]
+
+
+==================================================
+【EL 比較運算】
+==================================================
+
+例如：
+
+${param.gender == 'male'}
+
+表示：
+
+如果 gender 等於 male。
+
+EL 可搭配三元運算子：
+
+${條件 ? 真 : 假}
+
+例如：
+
+${param.gender == 'male'
+    ? '男性'
+    : '女性'}
+
+
+==================================================
+【EL empty】
+==================================================
+
+not empty
+
+用途：
+
+判斷資料是否存在。
+
+例如：
+
+${not empty param.subscribe
+    ? '已訂閱'
+    : '未訂閱'}
+
+如果 subscribe 有值：
+
+已訂閱
+
+沒有值：
+
+未訂閱
+
+
+==================================================
+【本章重點】
+==================================================
+
+radio
+- 單選
+- 同一組共用 name
+
+checkbox
+- 多選
+- 可同時勾選多個
+
+required
+- 必填
+
+request.getParameter()
+- 取得單一資料
+
+request.getParameterValues()
+- 取得多筆資料
+
+EL 三元運算子
+- ${條件 ? 真 : 假}
+
+not empty
+- 判斷資料是否存在
