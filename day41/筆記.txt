@@ -1,0 +1,33 @@
+比較運算子補充: 短路運算 (Short-circuit Evalluation)
+
+&&(且) 兩邊都必須是 true
+       -> true , true  (true) 
+       -> true , false (false)
+細節:  -> 只要左側已經是 false 整個 && 的結果一定是 false 因此右邊就不再計算
+
+||(或) 只要一邊是 true
+       -> true , true  (true)
+       -> true , false (true)
+細節:  -> 只要左側已經是 true 整個 || 的結果一定是 true 因此右邊就不再計算
+
+Ex:
+String s1 = null
+
+boolean b = s1.length() && s1!=null
+先執行 s1.length() -> s1 = null 無法呼叫 length()
+                   -> 會發生 NullPointerException
+
+boolean b = s1!=null && s1.length()
+先執行 s1!=null -> s1!=null(false) && 只要前面是 false 後面動作不執行 (程式運行)
+
+常見用途：
+
+防止 NullPointerException。
+
+例如：
+
+if(user != null && user.getName().equals("Allen"))
+
+先確認 user 是否存在，
+
+再呼叫 user.getName()。
