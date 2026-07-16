@@ -1,0 +1,204 @@
+//========================= MySQL ER model圖 =========================//
+
+Database -> Reverse Engineer -> Stored Connection (選擇要看的MySQL資料) 
+
+-> Next -> 輸入密碼 -> Next -> classicmodels -> Next 到最後
+
+
+//==================== 嘗試用 inner join 找出辦公室和員工 ====================//
+
+參考資料 mysqlsampledatabase.sql
+
+SELECT ofc.officeCode,ofc.city,ofc.phone,
+       emps.employeeNumber,emps.firstName,emps.email
+FROM classicmodels.offices as ofc
+INNER JOIN classicmodels.employees as emps
+ON ofc.officeCode = emps.officeCode
+
+
+//==================== 嘗試用 inner join 找出員工對應客戶 ====================//
+
+select emps.employeeNumber,emps.firstName,emps.email,
+	   cus.customerNumber,cus.contactFirstName,cus.phone
+from classicmodels.employees as emps
+inner join classicmodels.customers as cus
+on emps.employeeNumber=cus.salesRepEmployeeNumber
+order by emps.employeeNumber -> order by 排序 依照 employeeNumber 由小到大排列。
+
+
+//==================== 嘗試用 rigth join 沒員工對應的客戶 ====================//
+
+select emps.employeeNumber,emps.firstName,emps.email,
+	   cus.customerNumber,cus.contactFirstName,cus.phone
+from classicmodels.employees as emps
+rigth join classicmodels.customers as cus -> 以 JOIN 右邊的資料表為主，保留右表的全部資料。
+on emps.employeeNumber=cus.salesRepEmployeeNumber
+where emps.employeeNumber is null -> 只找員工編號是 null (只留下沒有對應員工的客戶)
+
+學習方法:
+from classicmodels.employees as emps right join classicmodels.customers as cus
+
+-> 把兩句話變成橫向 rigth(右) 右邊為主
+
+
+//==================== 嘗試用 left join 客戶沒有對應的訂單 ====================//
+
+select cus.customerNumber,cus.contactFirstName,cus.phone
+from classicmodels.customers as cus
+left join classicmodels.orders as ord -> 保留左邊 customers 的全部資料。
+on cus.customerNumber=ord.customerNumber
+where ord.orderNumber is null -> 只找員工編號是 null (只留下沒有對應員工的客戶)
+
+學習方法:
+from classicmodels.customers as cus left join classicmodels.orders as ord
+
+-> 把兩句話變成橫向 left(左) 左邊為主
+
+
+//==================== 新增一筆資料 ====================//
+
+Ex: 在新增 offices 資料
+
+offices 右鍵 -> Sand to SQL Editor -> Insert Statement -> 出現
+
+(`officeCode`,
+`city`,
+`phone`,
+`addressLine1`,
+`addressLine2`,
+`state`,
+`country`,
+`postalCode`,
+`territory`)
+VALUES
+(<{officeCode: }>,
+<{city: }>,
+<{phone: }>,
+<{addressLine1: }>,
+<{addressLine2: }>,
+<{state: }>,
+<{country: }>,
+<{postalCode: }>,
+<{territory: }>);
+
+VALUES 上方：要新增資料的欄位名稱。
+VALUES 下方：依照欄位順序填入的實際資料值。
+
+老師Ex:
+
+set autocommit=0; 
+
+-> 關閉自動提交。
+INSERT、UPDATE、DELETE 執行後，資料會先留在目前交易中，
+需要執行 COMMIT 才正式提交；
+在 COMMIT 前可以使用 ROLLBACK 取消。
+
+INSERT INTO classicmodels.offices
+
+(officeCode,city,phone,addressLine1,addressLine2,state,country,postalCode,territory)
+
+VALUES
+
+('8','Taipei','0223826015','Kung Yuan Road',null,'TW','Taiwan','10001','ASIA' );
+
+-- rollback; -> 取消目前交易中尚未 COMMIT 的新增、修改或刪除操作。
+
+-- set autocommit=1;
+ -> 若後續仍希望每一筆 SQL 自動提交，可以將 autocommit 改回 1。
+否則之後的資料修改仍需要手動執行 COMMIT。
+
+
+//==================== Stored Procedures 設計範例 ====================//
+
+delimiter $$ -> 暫時把 SQL 指令的結束符號，從分號 ; 改成 $$。
+
+CREATE PROCEDURE myChar() -> CREATE PROCEDURE (可以想成SQL的方法)
+
+BEGIN -> 開始
+
+        -- 定義變數i並給予初始值        
+	    DECLARE i INT DEFAULT 65 ;     
+
+        -- 建立temporary table 
+	-> CREATE TEMPORARY TABLE：
+	建立目前連線專用的暫存資料表。
+
+	特點：
+	- 通常只有目前資料庫連線可以看到。
+	- 連線結束時會自動刪除。
+
+        CREATE TEMPORARY TABLE ascii_chart
+        (ascii_code int, ascii_char CHAR(1));       
+
+        -- 採用while…do…end while迴圈
+        WHILE (i<91) DO
+                INSERT INTO ascii_chart VALUES(i,CHAR(i));
+                SET i=i+1;
+        END WHILE;      
+
+BEGIN ... END：
+界定 Stored Procedure 的程式區塊，
+多段 SQL、變數宣告、迴圈等內容都放在其中。
+
+        select * from ascii_chart order by ascii_code;      
+
+        -- 刪除temporary table
+
+        drop table ascii_chart;
+
+END$$ -> 結束
+
+delimiter ; -> 把段落符號改回 ;
+
+
+//==================== Stored Procedures 設計範例 ====================//
+
+Delimiter // -> 把段落符號改成 //
+
+Create procedure  classicmodels.GetEmpInOffice -> CREATE PROCEDURE (可以想成SQL的方法)
+(
+  cityname varchar(50)    
+
+)
+
+BEGIN -> 開始
+    	
+    
+    select *	
+    from  classicmodels.employees
+    where employees.officecode=(select officecode from classicmodels.offices where city=cityname) ;
+
+END // -> 結束
+
+
+//==================== Stored Procedures 設計範例 ====================//
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEmpCountInOffice`(
+   officename varchar(50) ,
+   out num int
+   -> OUT：
+   輸出參數。
+   Procedure 會把查詢得到的員工數量放入 num，
+   呼叫端可以在 Procedure 執行完後取得這個值。
+
+)
+BEGIN
+    	
+    
+    select count(*) -> 將 COUNT(*) 的查詢結果存入變數／OUT 參數 num。
+	into num
+    from employees
+    where employees.officecode=(select officecode from offices where city=officename) ;
+
+END
+
+
+//========================= 重點 =========================//
+
+多數基礎 SQL 查詢觀念在不同關聯式資料庫中相通，
+例如 SELECT、WHERE、JOIN、ORDER BY。
+
+但不同 DBMS 仍可能在資料型別、函式、分頁、DDL、
+Stored Procedure 等語法上存在差異。
+
+
