@@ -1,0 +1,5 @@
+	M -> Model -> DB , List , File -> Java class ( Entity class , DAO )
+
+最後	V -> View -> JSP
+
+進入	C -> Controller -> Servlet
