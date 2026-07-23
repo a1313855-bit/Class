@@ -1,0 +1,56 @@
+╔═══════════════════════════════════════╗
+║                Commit Message 商業規範（Conventional Commits）               ║
+╚═══════════════════════════════════════╝
+
+格式：<type>(<scope>): <subject>
+
+type:
+  feat     → 新功能
+  fix      → 修正 Bug
+  refactor → 重構（不影響功能）
+  docs     → 文件更新
+  test     → 測試相關
+  chore    → 設定、建置工具
+
+範例：
+  feat(auth): Add JWT token validation
+  fix(api): Handle null response from user service
+  docs(readme): Update installation instructions
+
+╔═══════════════════════════════════════╗
+║                       GitHub 設定預設瀏覽分支(非必要)                        ║
+╚═══════════════════════════════════════╝
+
+Settings -> Default branch -> 選擇預設分支 Ex:feature/A-v1
+
+
+╔═══════════════════════════════════════╗
+║                          在 GitHub 網頁直接 Merge                            ║
+╚═══════════════════════════════════════╝
+
+PR 頁面 → Merge pull request → Confirm merge
+選項：
+  - Create a merge commit（保留所有 commit 歷史）✅ 商業建議
+  - Squash and merge（將多個 commit 合併為一）
+  - Rebase and merge（線性歷史）
+
+
+
+
+
+
+
+
+
+
+
+╔═╗
+║  ║
+╚═╝
+
+
+
+
+
+
+
