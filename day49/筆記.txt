@@ -1,0 +1,11 @@
+Lambda 解析:
+
+📝 範例	:
+products.stream().filter(p ->p.getId().equalsIgnoreCase(id)).findFirst();
+
+Stream<Product> st = products.stream();
+
+Optional<Product> opt = st.filter(p ->p.getid().equals(id)).findFirst(); -> 單個
+                                                           .toList(); -> 多個
+opt.isPresent()
+opt.isEmpty()
