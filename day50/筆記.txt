@@ -1,0 +1,80 @@
+╔═══════════════════════════════════════╗
+║                                 Annotation                                   ║
+╚═══════════════════════════════════════╝
+
+//================================ @JsonProperty ================================//
+
+📖 概念 : 指定 JSON 的欄位名稱
+📝 範例 1 :
+@JsonProperty("product_name")
+productName="Mr.A";
+JSON 輸出 :
+{
+	"product_name": "iPhone"
+}
+📝 範例 2 : 不使用 @JsonProperty
+productName="Mr.A";
+JSON 輸出 :
+{
+	"productName": "iPhone"
+}
+
+//================================= @JsonAlias =================================//
+
+📖 概念 : 允許多個 JSON 名稱對應到同一個 Java 欄位
+❄ 重點 :
+只影響讀取(JSON → Java)
+不影響輸出(Java → JSON)
+📝 範例 :
+@JsonAlias({ "productName", "product_name", "name" })
+JSON :
+{
+	"product_name": "iPhone"
+} 
+或
+{ 
+	"name": "iPhone"
+}
+Java : productName=iPhone
+⚠ 注意 : 不影響輸出(Java → JSON)
+Java : productName=iPhone
+JSON :
+{ 
+	"productName": "iPhone"
+}
+✏ 補充: 想印出
+{
+	"product_name": "iPhone"
+}
+加上 @JsonProperty("product_name")
+
+//================================= @JsonIgnore =================================//
+
+📖 概念 : 忽略這個欄位 -> 不會 ： 輸出 讀取
+💡 我的理解 : 隱藏 Json 屬性(不是消失)
+📝 範例 :
+@JsonIgnore
+private String internalCode;
+📐 應用 :
+password
+secretKey
+token
+internalId
+
+//================================= @JsonFormat =================================//
+
+📖 概念 : 指定格式
+📝 範例 :
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+//================================ @JsonInclude ================================//
+
+📖 概念 : 控制哪些欄位要輸出
+📝 範例 :	
+@JsonInclude(JsonInclude.Include.NON_NULL)
+null 不輸出 
+
+//================================== @Provider ==================================//
+
+📖 概念 : 把這個類別註冊給 REST 框架使用的 Annotation
+
