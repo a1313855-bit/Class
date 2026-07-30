@@ -1,0 +1,114 @@
+╔═══════════════════════════════════════╗
+║                                dependency                                    ║
+╚═══════════════════════════════════════╝
+
+<dependencies>
+    <!-- JAX-RS API -->
+    <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>3.1.0</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- Jersey 核心 -->
+    <dependency>
+        <groupId>org.glassfish.jersey.core</groupId>
+        <artifactId>jersey-server</artifactId>
+        <version>3.1.6</version>
+    </dependency>
+
+    <!-- Jersey Servlet 整合 -->
+    <dependency>
+        <groupId>org.glassfish.jersey.containers</groupId>
+        <artifactId>jersey-container-servlet</artifactId>
+        <version>3.1.6</version>
+    </dependency>
+
+    <!-- Jersey 依賴注入 (HK2) -->
+    <dependency>
+        <groupId>org.glassfish.jersey.inject</groupId>
+        <artifactId>jersey-hk2</artifactId>
+        <version>3.1.6</version>
+    </dependency>
+
+    <!-- Jackson JSON 整合 -->
+    <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-json-jackson</artifactId>
+        <version>3.1.6</version>
+    </dependency>
+
+    <!-- JPA 實作 (Hibernate) -->
+    <dependency>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>6.6.1.Final</version>
+    </dependency>
+
+    <!-- HikariCP 連線池 (Hibernate 自動整合) -->
+    <dependency>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-hikaricp</artifactId>
+        <version>6.6.1.Final</version>
+    </dependency>
+
+    <!-- MySQL JDBC 驅動 -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>9.2.0</version>
+    </dependency>
+
+    <!-- Java 8+ 日期時間序列化 -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>2.16.1</version>
+    </dependency>
+</dependencies>
+
+┌────────────────┬───────────┐
+│           Dependency           │         用途         │
+├────────────────┼───────────┤
+│jakarta.ws.rs-api:3.1.0         │JAX-RS API            │
+├────────────────┼───────────┤
+│jersey-server:3.1.6             │Jersey 核心           │    
+├────────────────┼───────────┤
+│jersey-container-servlet:3.1.6  │Jersey Servlet 整合   │
+├────────────────┼───────────┤
+│jersey-hk2:3.1.6                │依賴注入 (HK2)        │
+├────────────────┼───────────┤
+│jersey-media-json-jackson:3.1.6 │Jackson JSON 整合     │
+├────────────────┼───────────┤
+│hibernate-core:6.6.1.Final      │JPA 實作 (Hibernate)  │
+├────────────────┼───────────┤
+│hibernate-hikaricp:6.6.1.Final  │HikariCP 連線池       │
+├────────────────┼───────────┤
+│mysql-connector-j:9.2.0         │MySQL JDBC 驅動       │
+├────────────────┼───────────┤
+│jackson-datatype-jsr310:2.16.1  │Java 8+ 日期時間序列化│
+└────────────────┴───────────┘
+
+
+┌──────────┬──────────────────────┬───────────────┐
+│      技術術語      │                  白話說明                  │             類比             │
+├──────────┼──────────────────────┼───────────────┤
+│Entity（實體）      │對應資料庫一張表的 Java 類別                │表格的 Java 分身              │
+├──────────┼──────────────────────┼───────────────┤
+│EntityManager       │負責對資料庫執行 CRUD 的工具人              │資料庫的遙控器                │
+├──────────┼──────────────────────┼───────────────┤
+│EntityManagerFactory│產生 EntityManager 的工廠，整個程式只需一個 │遙控器的電池組（貴，只買一次）│
+├──────────┼──────────────────────┼───────────────┤
+│persistence.xml     │告訴 JPA 要連哪個資料庫、帳密是什麼         │資料庫的設定檔                │
+├──────────┼──────────────────────┼───────────────┤
+│@Entity             │標注「這個 class 對應一張資料表」           │貼上標籤                      │
+├──────────┼──────────────────────┼───────────────┤
+│@Id                 │指定主鍵欄位                                │資料列的身分證號碼            │
+├──────────┼──────────────────────┼───────────────┤
+│@Column             │對應資料表欄位，可設定長度、是否 null       │欄位的詳細說明書              │
+├──────────┼──────────────────────┼───────────────┤
+│@PrePersist         │INSERT 前自動執行的方法（例如填入建立時間） │存檔前的自動鉤子              │
+├──────────┼──────────────────────┼───────────────┤
+│Transaction（交易） │一組操作要麼全成功、要麼全失敗              │銀行轉帳不能只扣款不入帳      │
+└──────────┴──────────────────────┴───────────────┘

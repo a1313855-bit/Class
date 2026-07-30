@@ -1,0 +1,79 @@
+╔═══════════════════════════════════════╗
+║                               JPA 環境設定                                   ║
+╚═══════════════════════════════════════╝
+
+┌───────────────────────────────────────┐
+│                                  Libraries                                   │
+└───────────────────────────────────────┘
+
+Window -> Preferences -> Java -> Build Path -> User Libraries
+
+New (自己取名)(不一定要一樣) -> Add Extemal JARs -> 把 eclipselink 所有.jar檔加進去
+
+┌───────────────────────────────────────┐
+│                                    Driver                                    │
+└───────────────────────────────────────┘
+
+Window -> Preferences -> Data Manangement -> Connectivity -> Driver Definitions -> Add
+
+//==================================== Name/Type ====================================//
+
+Vendor Filter(MySQL)(MySQL 5.1) -> Driver name(自己取名) Ex:MySQL classicmodels
+
+//==================================== JAR list ====================================//
+
+Remove JAR -> Add JAR 路徑 C:\Users\student\.m2\repository\com\mysql\mysql-connector-j\
+
+//==================================== Properrties ====================================//
+
+💡 我的理解 :
+之前做 DbUtil 的三項 url,user,password
+📝 範例	:
+Connection URL -> jdbc:mysql://localhost:3306/classmodels
+Database Name  -> classmodels
+Driver Class   -> com.mysql.cj.jdbc.Driver
+Password       -> ****
+User ID        -> root
+
+┌───────────────────────────────────────┐
+│                             Database Connections                             │
+└───────────────────────────────────────┘
+
+右上角 Open Perspective -> JPA -> 右下角 Database Connections -> 右鍵 New
+
+-> Connection Profile Types: MySQL -> 取名(JPA classicmodels MySQL) 
+
+-> 確認設定與剛剛相同 -> Finish
+
+┌───────────────────────────────────────┐
+│                                  Libraries                                   │
+└───────────────────────────────────────┘
+
+Build Path -> Project Facets -> JPA(3.1) -> Further configuration available
+
+-> Connection(JPA classicmodels MySQL) -> OK 
+
+┌───────────────────────────────────────┐
+│                               persistence.xml                                │
+└───────────────────────────────────────┘
+
+//==================================== Connection ====================================//
+
+Transaction type: (Resource Local)(本機端)
+
+JDBC connection properities -> Populate from connection (JPA classicmodels MySQL)
+
+//==================================== Sourcs ====================================//
+
+📝 範例 :
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+	<persistence-unit name="mvrestjpa0730" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/classicmodels"/>
+			<property name="jakarta.persistence.jdbc.user" value="root"/>
+			<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="jakarta.persistence.jdbc.password" value="1234"/>
+		</properties>
+	</persistence-unit>
+</persistence>
