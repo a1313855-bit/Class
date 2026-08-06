@@ -1,0 +1,108 @@
+╔═══════════════════════════════════════╗
+║                                   環境設定                                   ║
+╚═══════════════════════════════════════╝
+
+//==================================== 文字設定 ====================================//
+
+General -> Appearance -> Colors and Fonts -> Basic -> Text Font -> Edit
+
+//================================= Java 版本 設定 =================================//
+
+Java -> Installed JREs -> 選擇要用的版本
+
+//================================= Server 設定 =================================//
+
+Server -> Runtime Environments -> Add -> 選擇要用的伺服器版本
+
+📝 範例 :
+Apache Tomcat v10.1
+
+//=================================== XNL 設定 ===================================//
+
+XML(Wild Web Developeer) -> Download external resources like referenced DTD,XSD(打勾)
+
+//============================= 下載 Spring Boot 套件 =============================//
+
+Help -> Eclipse Marketplace -> 搜尋(Spring Boot) 
+-> Spring Tools(aka Spring Tool Suite) 5.3.0.RELEASE -> 安裝所有套件 -> 重啟 Eclipse
+
+╔═══════════════════════════════════════╗
+║                           建立 Spring Boot Project                           ║
+╚═══════════════════════════════════════╝
+
+//============================= 方法一 : 由本地端建立 =============================//
+
+File -> New -> Other -> Spring Boot -> Spring Starter Project
+
+Name (專案名稱)        📝 範例 : SpringBoot0806
+Type                   📝 範例 : Maven
+Java Version           📝 範例 : 17
+Packaging (打包輸出檔) 📝 範例 : Jar
+Language (語言)        📝 範例 : Java
+
+-> Next
+
+Developer Tools -> Spring Boot DevTools
+Web -> Spring Web
+
+-> Finish
+
+//============================= 方法二 : 由網頁建立 =============================//
+
+輸入網址 https://start.spring.io/
+
+Project(專案結構)             📝 範例 : Maven
+Language(語言)                📝 範例 : Java
+Spring Boot(Spring Boot 版本) 📝 範例 : 4.1.0
+Artifact(專案名稱)            📝 範例 : SpringBoot0806_2
+Packaging(打包輸出檔)         📝 範例 : Jar
+Configuration(排版模式)       📝 範例 : Properties
+Java(Java版本)                📝 範例 : 17
+
+Dependencies
+-> Spring Boot DevTools
+-> Spring Web
+
+-> GENERATE
+
+╔═══════════════════════════════════════╗
+║                            Spring Boot Annotation                            ║
+╚═══════════════════════════════════════╝
+
+@Controller
+💡 我的理解 : 宣告此類別為控制器
+❄ 重點 : 輸出為 Thymeloaf(百里香)
+
+@RestController
+💡 我的理解 : 宣告此類別為控制器
+❄ 重點 : 輸出為 文字
+
+@Service
+💡 我的理解 : 宣告此類別為商業邏輯
+
+@Autowired
+💡 我的理解 : 宣告 Service 物件時自動產生 Constructor
+📝 範例(原本) :
+private final GreetingService greetingService;
+public HelloWorld(GreetingService greetingService) {
+	this.greetingService = greetingService;
+}
+
+📝 範例(Autowired) :
+@Autowired
+private GreetingService greetingService;
+
+//==================== 💡 我的理解 : 相對應的@Annotation 用法 ====================//
+
+╔════════╦════════╗
+║  Spring Boot   ║Restful Service ║
+╠════════╬════════╣
+║@RequestMapping ║@Path           ║
+╠════════╬════════╣
+║@GetMapping     ║@GET            ║
+╠════════╬════════╣
+║@PathVariable   ║@PathParam      ║
+╠════════╬════════╣
+║@RequestParam   ║@QueryParam     ║
+╚════════╩════════╝
+
