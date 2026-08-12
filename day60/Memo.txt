@@ -1,0 +1,27 @@
+┌─────────┬───────────────┬──────────────┐
+│      關鍵字      │           等同 SQL           │        方法名稱範例        │
+├─────────┼───────────────┼──────────────┤
+│And               │WHERE a = ? AND b = ?         │findByNameAndEmail          │
+├─────────┼───────────────┼──────────────┤
+│Or                │WHERE a = ? OR b = ?          │findByNameOrEmail           │
+├─────────┼───────────────┼──────────────┤
+│Between           │WHERE a BETWEEN ? AND ?       │findBySalaryBetween         │
+├─────────┼───────────────┼──────────────┤
+│LessThan          │WHERE a < ?                   │findBySalaryLessThan        │
+├─────────┼───────────────┼──────────────┤
+│GreaterThan       │WHERE a > ?                   │findBySalaryGreaterThan     │
+├─────────┼───────────────┼──────────────┤
+│Like              │WHERE a LIKE ?（需手動加 %）  │findByNameLike              │
+├─────────┼───────────────┼──────────────┤
+│Containing        │WHERE a LIKE '%?%'（自動加 %）│findByNameContaining        │
+├─────────┼───────────────┼──────────────┤
+│StartingWith      │WHERE a LIKE '?%'             │findByNameStartingWith      │
+├─────────┼───────────────┼──────────────┤
+│OrderBy...Asc/Desc│ORDER BY a ASC/DESC           │findByDeptOrderBySalaryDesc │
+├─────────┼───────────────┼──────────────┤
+│IgnoreCase        │LOWER(a) = LOWER(?)           │findByNameIgnoreCase        │
+├─────────┼───────────────┼──────────────┤
+│Count             │SELECT COUNT(*)               │countByDepartment           │
+├─────────┼───────────────┼──────────────┤
+│Exists            │SELECT COUNT(*) > 0           │existsByEmail               │
+└─────────┴───────────────┼──────────────┘
