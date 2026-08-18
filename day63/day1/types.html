@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript Tpyes</title>
+</head>
+
+<body>
+    <button onclick="test()">Click Me!</button>
+    <button onclick="test2()">test prompt type</button>
+    <script>
+        const test2 = () => {
+            let input = prompt("Please enter a value:");
+            // input = parseInt(input);
+            const type = typeof input;
+            alert(type);
+        }
+
+        function test() {
+            let a = 1;
+            let b = "1";
+            let c = true;
+            let d = null;
+            let e;
+            let f = { name: "Mr.A", age: 30 };
+            let g = [1, 2, 3];
+            console.log(typeof a); // number
+            console.log(typeof b); // string
+            console.log(typeof c); // boolean
+            console.log(typeof d); // object
+            console.log(typeof e); // undefined
+            console.log(typeof f); // object
+            console.log(typeof g); // object
+        }
+    </script>
+</body>
+
+</html>

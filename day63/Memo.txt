@@ -1,0 +1,42 @@
+╔═══════════════════════════════════════╗
+║                                    VsCode                                    ║
+╚═══════════════════════════════════════╝
+
+//============================ PowerShell 授權指令 ============================//
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+⚠ 注意 : 若沒有輸入授權指令直接在 powershell 輸入指令
+npm : 因為這個系統上已停用指令碼執行，所以無法載入 C:\Program Files\nodejs\npm.ps1 檔案。如需詳細資訊，請參閱 about_Execution_Policies，網址為 https:/go.microsoft.com/fwlink/?LinkID=135170。
+位於 線路:1 字元:1
++ npm -v
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+
+//======================== 外掛(Extensions) Live Server ========================//
+1. 左手邊選項 Extensions
+2. 搜尋 live Server
+3. install
+❄ 重點	: 下載完畢可點選齒輪進行設定
+Live Server › Settings: Custom Browser : 可設定預設瀏覽器
+
+//============================== Node.js 常用指令 ==============================//
+
+╔═══════╦══════╦═══════╗
+║     指令     ║    功能    ║     範例     ║
+╠═══════╬══════╬═══════╣
+║node -v       ║Node.js 版本║輸出:v22.18.0 ║
+╠═══════╬══════╬═══════╣
+║npm -v        ║npm 版本號  ║輸出:11.6.2   ║
+╠═══════╬══════╬═══════╣
+║node 檔案名稱 ║執行 js檔案 ║node first.js ║
+╚═══════╩══════╩═══════╝
+
+╔═══════════════════════════════════════╗
+║                                VsCode 問題排除                               ║
+╚═══════════════════════════════════════╝
+
+//===================== 終端機(Terminal) PowerShell 開啟錯誤 =====================//
+1. Ctrl  + Shift + P
+2. 搜尋 Terminal:Select Default Profile
+3. 選擇 Windows PowerShell
