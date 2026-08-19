@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Array Function</title>
+</head>
+
+<body>
+    <button onclick="showArray()">Array Map Object</button>
+    <script>
+        function showArray() {
+            let names = ["Mr.A", "Mr.B", "Mr.C"];
+            let scores = [60, 70, 80];
+            let array = names.map((name, index) => {
+                return { name: name, score: scores[index] }
+            });
+            console.log(array);
+        }
+    </script>
+</body>
+
+</html>

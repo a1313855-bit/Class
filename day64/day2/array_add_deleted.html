@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Array Add and Delete</title>
+</head>
+
+<body>
+    <button onclick="addArray()">Add Array</button>
+    <button onclick="deleteArray()">Delete Array</button>
+    <button onclick="addArrayHead()">Add Array (unshift)</button>
+    <button onclick="deleteArrayHead()">Delete Array (shift)</button>
+    <script>
+        let fruits = [];
+        // 新增(陣列最後)
+        function addArray() {
+            let addFruit = prompt("請輸入水果名稱");
+            fruits.push(addFruit);
+            console.log("現有水果 : " + fruits);
+        }
+        // 刪除(陣列最後)
+        function deleteArray() {
+            let deleteFruit = fruits.pop();
+            console.log("刪除水果 : " + deleteFruit);
+            console.log("現有水果 : " + fruits);
+        }
+        // 新增(陣列最前)
+        function addArrayHead() {
+            let addFruitHead = prompt("請輸入水果名稱");
+            fruits.unshift(addFruitHead);
+            console.log("現有水果 : " + fruits);
+        }
+        // 刪除(陣列最前)
+        function deleteArrayHead() {
+            let deleteFruitHead = fruits.shift();
+            console.log("刪除水果 : " + deleteFruitHead);
+            console.log("現有水果 : " + fruits);
+        }
+    </script>
+</body>
+
+</html>

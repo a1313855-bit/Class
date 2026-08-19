@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>BOM IMAGES</title>
+
+</head>
+
+<body>
+    <!-- <img id="img" src="images/banana.png" width="320px" height="200px" /> -->
+    <img id="images" src="images/stickman_01.png" width="720px" height="600px" />    
+    <button onclick="startImage()">Start Clock</button>
+    <button onclick="stopImage()">Stop Clock</button>
+    <script>
+        /*
+        var index = 1;
+        var intervalId;
+        var pics = ['images/banana.png', 'images/grape.png', 'images/guava.png', 'images/mango.png', 'images/orange.png'];
+        const startImage = function () {
+            intervalId = window.setInterval(changeImage, 1000);
+        };
+        const stopImage = function () {
+            window.clearInterval(intervalId);
+        };
+        const changeImage = function () {
+            document.getElementById('img').src = pics[index];
+            index++;
+            index = index % pics.length;
+        };
+        */
+
+        let index = 1;
+        let intervalId;
+        let images = ['images/stickman_01.png', 'images/stickman_02.png', 'images/stickman_03.png', 'images/stickman_04.png',
+            'images/stickman_05.png', 'images/stickman_06.png', 'images/stickman_07.png', 'images/stickman_08.png',
+            'images/stickman_09.png', 'images/stickman_10.png'];
+        const startImage = function () {
+            intervalId = window.setInterval(changeImege, 250);
+        }
+        const stopImage = function () {
+            window.clearInterval(intervalId);
+        }
+        const changeImege = function () {
+            document.getElementById('images').src = images[index];
+            index++;
+            index %= images.length;
+        }
+
+    </script>
+</body>
+
+</html>

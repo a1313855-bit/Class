@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Array Splice</title>
+</head>
+
+<body>
+    <button onclick="ArrayOP()">Search Array and Delete</button>
+    <button onclick="ArrayReplace()">Search Array and Replace</button>
+    <script>
+        var members = ['Mr.A', 'Mr.B', 'Mr.C', 'Mr.D', 'Mr.E'];
+        // 刪除指定成員
+        function ArrayOP() {
+            console.log("現有成員 : " + members);
+            let deleteMember = prompt("輸入刪除成員名稱");
+            let index = members.indexOf(deleteMember);
+            if (index >= 0) {
+                members.splice(index, 1)
+                console.log("刪除成員 : " + deleteMember);
+                console.log("現有成員 : " + members);
+            } else {
+                console.log(deleteMember + "成員名稱不存在!");
+                console.log("現有成員 : " + members);
+            }
+        }
+        // 修改指定成員
+        function ArrayReplace() {
+            console.log("現有成員 : " + members);
+            let deleteMember = prompt("輸入修改成員名稱");
+            let replaceMember = prompt("輸入替換成員名稱");
+            let index = members.indexOf(deleteMember);
+            if (index >= 0) {
+                members.splice(index, 1, replaceMember);
+                console.log("刪除成員 : " + deleteMember)
+                console.log("替換新成員 : " + replaceMember);
+                console.log("現有成員 : " + members);
+            } else {
+                console.log(deleteMember + "成員名稱不存在!");
+                console.log("現有成員 : " + members);
+            }
+        }
+    </script>
+</body>
+
+</html>

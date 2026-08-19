@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Create Object</title>
+</head>
+
+<body>
+    <button onclick="createObject()">Create Object</button>
+    <button onclick="changeJson()">Change JSON</button>
+    <script>
+        let person = {};
+        function createObject() {
+            let name = prompt("輸入姓名");
+            let age = prompt("書性年齡");
+            person.name = name;
+            person.age = age;
+            console.log(person);
+        }
+        function changeJson() {
+            let jsonObject = JSON.stringify(person);
+            console.log(jsonObject);
+        }
+    </script>
+</body>
+
+</html>

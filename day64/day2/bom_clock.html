@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>BOM CLOCK</title>
+
+</head>
+
+<body>
+    <h2> Time : <span id="time"></span></h2>
+    <button onclick="startClock()">Start Clock</button>
+    <button onclick="stopClock()">Stop Clock</button>
+    <script>
+        let intervalid;
+        const startClock = function () {
+            intervaild = window.setInterval(function () {
+                document.getElementById('time').textContent = new Date()
+                    .toLocaleTimeString();
+            }, 1000);
+        };
+        const stopClock = function () {
+            window.clearInterval(intervaild);
+        }
+    </script>
+</body>
+
+</html>
