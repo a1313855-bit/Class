@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JQuery Basic</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <button>Start</button>
+    <button id="b1">Hide id</button>
+    <button id="b2">Hide class</button>
+    <button id="b3">Hide Element Tag</button><br />
+    <h3 id="test">id Test</h3>
+    <h3 class="test">class Test</h3>
+    <p>p Test</p>
+  </body>
+  <script>
+    // 3.
+    const buttonClick = () => {
+      alert("Button Clicked!");
+    };
+    // 2.
+    const start = () => {
+      $("button").click(buttonClick);
+      $("#b1").click(function () {
+        $("#test").hide();
+      });
+      $("#b2").click(function () {
+        $(".test").hide();
+      });
+      $("#b3").click(function () {
+        $("p").hide();
+      });
+    };
+    // 1.
+    $(document).ready(start);
+  </script>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DOM Nodes Example</title>
+  </head>
+
+  <body>
+    <button onclick="removeElement()">Remove Element</button>
+    <button onclick="removeTableChild()">Remove Table Row</button>
+    <u1 id="firstUL">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+      <li>Item 4</li>
+      <li>Item 5</li>
+    </u1>
+    <table border="1" width="20%">
+      <tr>
+        <td>Row 1</td>
+        <td>Column 1</td>
+        <td>Column 2</td>
+        <td>Column 3</td>
+      </tr>
+      <tr>
+        <td>Row 2</td>
+        <td>Column 1</td>
+        <td>Column 2</td>
+        <td>Column 3</td>
+      </tr>
+      <tr>
+        <td>Row 3</td>
+        <td>Column 1</td>
+        <td>Column 2</td>
+        <td>Column 3</td>
+      </tr>
+    </table>
+    <script>
+      const removeElement = () => {
+        let head = document.querySelector("#firstUL");
+        if (head.firstChild) {
+          if (head.firstChild.nodeName == "#text") {
+            let textNode = head.firstChild.nextSibling;
+            if (textNode.nodeName == "#text") {
+              head.removeChild(head.firstChild);
+            }
+            head.removeChild(textNode);
+            return;
+          }
+        }
+        head.removeChild(head.firstChild);
+      };
+      const removeTableChild = function () {
+        let table = document.querySelector("table");
+        table.deleteRow(0); // 刪第 1 列（index 從 0 開始）
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JQuery Basic</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <button id="b1">Class Attribute</button>
+    <table border="0" width="30%" style="display: none" id="member"></table>
+  </body>
+  <script>
+    const buttonClick = () => {
+      alert("Button clicked!");
+    };
+    const start = () => {
+      $("#b1").click(function () {
+        $("#member").show();
+        let array = [
+          { name: "Mr.A", age: "20", email: "aaa@test.com" },
+          { name: "Mr.B", age: "25", email: "bbb@test.com" },
+          { name: "Mr.C", age: "30", email: "ccc@test.com" },
+        ];
+        $.each(array, function (i) {
+          let row = $("<tr></tr>");
+          $("<td></td>")
+            .text(i + 1)
+            .appendTo(row);
+          $("<td></td>").text(this.name).appendTo(row);
+          $("<td></td>").text(this.age).appendTo(row);
+          $("<td></td>").text(this.email).appendTo(row);
+          $("#member").append(row);
+        });
+      });
+    };
+    $(document).ready(start);
+  </script>
+</html>

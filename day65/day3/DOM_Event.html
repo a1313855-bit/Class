@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DOM Event</title>
+  </head>
+
+  <body>
+    <!-- HTML 屬性：onclick="函式(this)" -->
+    <button onclick="eventOP(this)" data-name="Lamy">Event(this)</button>
+    <div
+      id="scene"
+      style="width: 100px; height: 100px; background-color: grey"
+      onmouseout="this.style.backgroundColor = 'grey'"
+    ></div>
+  </body>
+  <script>
+    // HTML 屬性：onclick="函式(this)"
+    const eventOP = (button) => {
+      console.log(button.getAttribute("data-name"));
+    };
+    // addEventListener（可綁多個）
+    const eventOP2 = () => {
+      alert("document loaded");
+    };
+    window.addEventListener("load", eventOP2);
+    // 直接指定 on事件（屬性寫法）
+    let scene = document.getElementById("scene");
+    scene.onmouseover = function () {
+      this.style.backgroundColor = "blue";
+      console.log("Scene text");
+    };
+    // 鍵盤事件
+    document.onkeydown = function (event) {
+      if (event.keyCode === 89 && event.ctrlKey) {
+        // ctrl + y
+        alert("你同時按下 control + y");
+      } else if (event.keyCode === 90 && event.ctrlKey) {
+        // ctrl + z
+        alert("你同時按下 control + z");
+      }
+    };
+  </script>
+</html>

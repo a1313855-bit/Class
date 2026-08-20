@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Form Check</title>
+  </head>
+
+  <body>
+    <form id="myForm" action="javascript:alert('表單傳送成功!');" method="post">
+      Name : <input type="text" name="name" id="name" /><br />
+      Email : <input type="email" name="email" id="email" /><br />
+      <input type="submit" value="送出" />
+    </form>
+  </body>
+  <script>
+    const formCheck = (event) => {
+      //event.preventDefault(); // Prevent form submission
+      let name = document.querySelector("#name").value;
+      let email = document.querySelector("#email").value;
+      if (name === "" || email === "") {
+        alert("Please fill in all fields.");
+        event.preventDefault();
+      } else {
+        alert("Form submitted successfully!");
+      }
+    };
+    let form = document.querySelector("#myForm");
+    form.addEventListener("submit", formCheck);
+  </script>
+</html>

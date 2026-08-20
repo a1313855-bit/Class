@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JQuery Basic</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <button id="b1">JQuery Get</button>
+    <button id="b2">JQuery Post</button>
+  </body>
+  <script>
+    const buttonClick = () => {
+      $.get("http://localhost:8080/api/first", function (data, status) {
+        alert("Data: " + data + "\nStatus: " + status);
+      });
+    };
+    const buttonClick2 = () => {
+      $.post(
+        "http://localhost:8080/api",
+        { name: "Lee", city: "Taipei" },
+        function (data, status) {
+          alert("Data: " + data + "\nStatus: " + status);
+        },
+      );
+    };
+    const start = () => {
+      $("#b1").click(buttonClick);
+      $("#b2").click(buttonClick2);
+    };
+    $(document).ready(start);
+  </script>
+</html>
